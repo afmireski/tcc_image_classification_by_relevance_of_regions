@@ -7,9 +7,9 @@ Para clonar e executar o projeto, siga as seguintes instruções
 ```bash
 # Clone o projeto
 
-git clone git@github.com:afmireski/tcc_image_classification_by_relevance_of_regions_using_machine_learning.git 
+git clone git@github.com:afmireski/tcc_image_classification_by_relevance_of_regions.git 
 ## or
-git clone https://github.com/afmireski/tcc_image_classification_by_relevance_of_regions_using_machine_learning.git
+git clone https://github.com/afmireski/tcc_image_classification_by_relevance_of_regions.git
 
 # Configure a venv do projeto
 python -m venv .venv    
