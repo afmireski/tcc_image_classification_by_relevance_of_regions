@@ -1,5 +1,5 @@
-# images_classificator
-Classificador de imagens em escala de cinza, utilizando os algoritmos LBP e GLCM como extratores de características.
+# Image Classification by Relevance of Regions Using Machine Learning
+
 
 ## Setup
 Para clonar e executar o projeto, siga as seguintes instruções
@@ -7,9 +7,9 @@ Para clonar e executar o projeto, siga as seguintes instruções
 ```bash
 # Clone o projeto
 
-git clone git@github.com:afmireski/images_classificator.git 
+git clone git@github.com:afmireski/tcc_image_classification_by_relevance_of_regions_using_machine_learning.git 
 ## or
-git clone https://github.com/afmireski/images_classificator.git
+git clone https://github.com/afmireski/tcc_image_classification_by_relevance_of_regions_using_machine_learning.git
 
 # Configure a venv do projeto
 python -m venv .venv    
