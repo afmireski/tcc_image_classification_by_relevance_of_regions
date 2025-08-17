@@ -25,7 +25,8 @@ from .image_tools import (
 
 from .specialists import (
     build_specialist_set,
-    build_specialist_set_for_many_classes
+    build_specialist_set_for_many_classes,
+    train_specialists
 )
 
 __all__ = [
@@ -47,5 +48,6 @@ __all__ = [
     "reconstruct_image_from_regions",
 
     "build_specialist_set",
-    "build_specialist_set_for_many_classes"
+    "build_specialist_set_for_many_classes",
+    "train_specialists"
 ]
