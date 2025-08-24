@@ -476,12 +476,12 @@ def visualize_image_segmentation_dynamic(
 
 def calculate_dynamic_k(
     height: int, width: int, 
-    min_k: int = 4, max_k: int = 49,
+    min_k: int = 4, max_k: int = 20,
     base_size: int = 512, base_k: int = 9
 ) -> int:
     """
     Calculate K dynamically based on image dimensions.
-    
+
     Uses 512x512 with K=9 as reference point and scales proportionally.
     
     Args:
@@ -523,8 +523,8 @@ def calculate_dynamic_k(
 
 def segment_image_auto(
     image: np.ndarray, 
-    min_region_size: int = 64,
-    min_k: int = 4, max_k: int = 49,
+    min_region_size: int = 128,
+    min_k: int = 4, max_k: int = 20,
     base_size: int = 512, base_k: int = 9
 ) -> np.ndarray:
     """
@@ -556,8 +556,8 @@ def segment_image_auto(
 
 def segment_images_batch_auto(
     images: List[np.ndarray], 
-    min_region_size: int = 64,
-    min_k: int = 4, max_k: int = 49,
+    min_region_size: int = 128,
+    min_k: int = 4, max_k: int = 20,
     base_size: int = 512, base_k: int = 9
 ) -> List[np.ndarray]:
     """
@@ -594,8 +594,8 @@ def segment_images_batch_auto(
 
 def segment_images_by_category_auto(
     images_by_category: Dict[str, List[np.ndarray]], 
-    min_region_size: int = 64,
-    min_k: int = 4, max_k: int = 49,
+    min_region_size: int = 128,
+    min_k: int = 4, max_k: int = 20,
     base_size: int = 512, base_k: int = 9
 ) -> Dict[str, List[np.ndarray]]:
     """
@@ -657,8 +657,8 @@ def segment_images_by_category_auto(
 
 def visualize_image_segmentation_auto(
     image: np.ndarray, 
-    min_region_size: int = 64,
-    min_k: int = 4, max_k: int = 49,
+    min_region_size: int = 128,
+    min_k: int = 4, max_k: int = 20,
     base_size: int = 512, base_k: int = 9,
     figsize: Tuple[int, int] = (12, 8)
 ):
