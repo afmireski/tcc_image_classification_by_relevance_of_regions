@@ -559,7 +559,7 @@ def segment_images_batch_auto(
     min_region_size: int = 128,
     min_k: int = 4, max_k: int = 20,
     base_size: int = 512, base_k: int = 9
-) -> List[np.ndarray]:
+) -> np.ndarray:
     """
     Automatically segments a batch of images with dynamic K calculation.
 
@@ -574,20 +574,20 @@ def segment_images_batch_auto(
     Returns:
         List[np.ndarray]: List of segmentation matrices, one for each input image.
     """
-    all_segmented_images = []
+    all_segmented_images = np.array([])
 
     for i, image in enumerate(images):
         try:
             segmented_regions = segment_image_auto(
                 image, min_region_size, min_k, max_k, base_size, base_k
             )
-            all_segmented_images.append(segmented_regions)
+            all_segmented_images = np.append(all_segmented_images, segmented_regions)
         except Exception as e:
             print(f"Error processing image {i}: {e}")
             # Create single region fallback for failed images
             single_region_matrix = np.empty((1, 1), dtype=object)
             single_region_matrix[0, 0] = image
-            all_segmented_images.append(single_region_matrix)
+            all_segmented_images = np.append(all_segmented_images, single_region_matrix)
 
     return all_segmented_images
 
@@ -597,7 +597,7 @@ def segment_images_by_category_auto(
     min_region_size: int = 128,
     min_k: int = 4, max_k: int = 20,
     base_size: int = 512, base_k: int = 9
-) -> Dict[str, List[np.ndarray]]:
+) -> Dict[str, np.ndarray]:
     """
     Automatically segments images organized by category with dynamic K calculation.
 
@@ -623,34 +623,12 @@ def segment_images_by_category_auto(
         segmented_by_category[category] = segmented_images
 
         # Calculate statistics
-        total_regions = 0
-        k_distribution = {}
-        grid_info = {}
-        
-        for i, seg_matrix in enumerate(segmented_images):
-            actual_regions = seg_matrix.shape[0] * seg_matrix.shape[1]
-            total_regions += actual_regions
-            
-            # Track K distribution
-            k_distribution[actual_regions] = k_distribution.get(actual_regions, 0) + 1
-            
-            # Track grid distribution
-            grid_key = f"{seg_matrix.shape[0]}x{seg_matrix.shape[1]}"
-            grid_info[grid_key] = grid_info.get(grid_key, 0) + 1
+        total_regions = len(segmented_images)
+        k_mean = total_regions / len(images)
 
-        avg_regions = total_regions / len(segmented_images) if segmented_images else 0
-        print(f"  Generated average {avg_regions:.1f} regions per image")
-        
-        # Show K distribution
-        print("  K distribution:")
-        for k_val in sorted(k_distribution.keys()):
-            count = k_distribution[k_val]
-            print(f"    K={k_val}: {count} images")
-        
-        # Show grid distribution
-        print("  Grid distribution:")
-        for grid, count in sorted(grid_info.items()):
-            print(f"    {grid}: {count} images")
+        print(f"  Generated average {k_mean:.1f} regions per image")
+        print(f"{category}:", segmented_images.shape)
+
 
     return segmented_by_category
 
