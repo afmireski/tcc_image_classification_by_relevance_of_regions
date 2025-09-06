@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 from typing import List, Tuple, Dict, Any
+from skimage import transform
 
 
 def segment_image_into_grid(
@@ -710,3 +711,32 @@ def show_region_example(regions_matrix: np.ndarray, row: int = 0, col: int = 0):
     plt.title(f'Region ({row}, {col}) - Shape: {region.shape}')
     plt.axis('off')
     plt.show()
+
+
+def resize_with_padding(img, target_size=512):
+    h, w = img.shape[:2]
+
+    # escala baseada na maior dimensão
+    scale = target_size / max(h, w)
+    new_h, new_w = int(h * scale), int(w * scale)
+
+    # resize proporcional
+    resized = transform.resize(
+        img,
+        (new_h, new_w),
+        anti_aliasing=True,
+        preserve_range=True
+    )
+
+    # cria canvas preto
+    if img.ndim == 3:
+        new_img = np.zeros((target_size, target_size, img.shape[2]), dtype=resized.dtype)
+    else:  # grayscale
+        new_img = np.zeros((target_size, target_size), dtype=resized.dtype)
+
+    # centraliza a imagem redimensionada dentro do canvas
+    y_offset = (target_size - new_h) // 2
+    x_offset = (target_size - new_w) // 2
+    new_img[y_offset:y_offset+new_h, x_offset:x_offset+new_w] = resized
+
+    return new_img
