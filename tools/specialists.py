@@ -117,30 +117,23 @@ def train_specialists(base_model, train_func, specialist_sets, class_names, mode
     print(f"   📊 Modo detalhado: {'Ativado' if verbose else 'Resumo apenas'}")
     print("-" * 60)
     
-    for i, (features, labels) in enumerate(specialist_sets):
+    for i, dataset in enumerate(specialist_sets):
         class_name = class_names[i]
         specialist_title = f"{model_name}-Specialist-{class_name}"
         
         print(f"\n🎯 Treinando especialista {i+1}/{len(specialist_sets)}: {class_name}")
-        
-        if verbose:
-            print(f"   📐 Features shape: {features.shape}")
-            print(f"   🏷️  Labels shape: {labels.shape}")
-            print(f"   📊 Distribuição de classes: {np.bincount(labels)}")
-        
+                
         # Usa a função de treinamento assistido fornecida
         try:
-            specialist_model, metrics = train_func(
+            metrics = train_func(
                 base_model=base_model,
-                X=features, 
-                y=labels,
+                folded_dataset=dataset,
                 title=specialist_title,
-                k_folds=k_folds,
                 verbose=verbose
             )
             
             # Adiciona o modelo treinado ao array de especialistas
-            specialists.append((specialist_model, metrics))
+            specialists.append(metrics)
 
             if not verbose:
                 # Mostra resumo compacto se verbose=False
