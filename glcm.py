@@ -47,7 +47,7 @@ def extract_glcm_features_for_each_category(categories, glcm_list, props):
 
 # Nova função para paralelizar a extração de características GLCM
 def parallel_extract_glcm_features_from_many_images(glcm_list, props, n_jobs=-1):
-    return Parallel(n_jobs=n_jobs)(
+    return Parallel(n_jobs=n_jobs, backend="threading")(
         delayed(extract_glcm_features)(glcm, props) for glcm in glcm_list
     )
 
@@ -58,7 +58,7 @@ def parallel_extract_glcm_features_for_each_category(categories, glcm_list, prop
     }
 
 def parallel_calculate_glcm_from_many_images(images, distances, angles, levels, symmetric=True, normed=True, n_jobs=-1):
-    return Parallel(n_jobs=n_jobs)(
+    return Parallel(n_jobs=n_jobs, backend="threading")(
         delayed(calculate_glcm_from_single_image)(img, distances, angles, levels, symmetric, normed) for img in images
     )
 
