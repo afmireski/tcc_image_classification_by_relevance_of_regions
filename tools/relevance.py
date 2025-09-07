@@ -187,3 +187,30 @@ def shannon_entropy_manual(prob_matrix: np.ndarray) -> np.ndarray:
         H.append(-s)
 
     return np.array(H)
+
+def relevance(entropies: np.array) -> np.array:
+    """
+    Calcula R(x_j) para um vetor de entropias H(x_j)
+    R(x_j) = 1 - H(x_j).
+
+    Args:
+        entropies: array (n_amostras,) com H(x_j) para cada amostra
+
+    Returns:
+        relevancias: array (n_amostras,) com R(x_j) para cada amostra
+    """
+    return 1.0 - entropies
+
+def max_relevance(relevances: np.array, prob_matrix: np.ndarray) -> np.array:
+    """
+    Calcula R_max(x_j) para um vetor de relevâncias R(x_j)
+    R_max(x_j) = R(x_j) * max(P(x_j)).
+
+    Args:
+        relevances: array (n_amostras,) com R(x_j) para cada amostra
+        prob_matrix: array (n_amostras, n_especialistas) com P(x_j) para cada amostra
+
+    Returns:
+        relevances: array (n_amostras,) com R_max(x_j) para cada amostra
+    """
+    return relevances * prob_matrix.max(axis=1)
