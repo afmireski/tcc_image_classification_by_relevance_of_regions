@@ -29,6 +29,11 @@ from .specialists import (
     train_specialists
 )
 
+from .relevance import (
+    extract_model_results,
+    extract_specialists_probabilities
+)
+    
 __all__ = [
     "segment_image_into_grid",
     "segment_image_dynamic", 
@@ -49,5 +54,8 @@ __all__ = [
 
     "build_specialist_set",
     "build_specialist_set_for_many_classes",
-    "train_specialists"
+    "train_specialists",
+
+    "extract_model_results",
+    "extract_specialists_probabilities"
 ]
