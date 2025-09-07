@@ -133,3 +133,57 @@ def normalize_probabilities(raw_probabilities: List[np.ndarray]) -> np.ndarray:
     normalized_probs = prob_matrix / prob_matrix.sum(axis=1, keepdims=True)
     
     return normalized_probs  # Shape: (n_probabilities, n_specialists)
+
+def shannon_entropy(prob_matrix: np.ndarray) -> np.ndarray:
+    """
+    Calcula H(x_j) por amostra (linha) para uma matriz de probabilidades no formato (n_amostras, n_especialistas).
+    H(x_j) = - sum_i P_i(x_j) * log_base(P_i(x_j)), com base = n_especialistas por padrão.
+
+    Args:
+        prob_matrix: array (n_amostras, n_especialistas), cada linha soma ~1.0
+
+    Returns:
+        entropias: array (n_amostras,) com H(x_j) para cada amostra (linha)
+    """
+    P = np.asarray(prob_matrix, dtype=float)
+    if P.ndim != 2:
+        raise ValueError("prob_matrix deve ser 2D: (n_amostras, n_especialistas).")
+    print(f'Shape: {P.shape}')
+    _, base = P.shape
+
+    # log na base desejada
+    logP_base = np.log(P) / np.log(base)
+
+    # soma sobre especialistas (colunas), resultando em entropia por amostra (linhas)
+    H = -np.sum(P * logP_base, axis=1)
+    return H
+
+
+def shannon_entropy_manual(prob_matrix: np.ndarray) -> np.ndarray:
+    """
+    Calcula H(x_j) por amostra (linha) para uma matriz de probabilidades no formato (n_amostras, n_especialistas).
+    H(x_j) = - sum_i P_i(x_j) * log_base(P_i(x_j)), com base = n_especialistas por padrão.
+
+    Args:
+        prob_matrix: array (n_amostras, n_especialistas), cada linha soma ~1.0
+
+    Returns:
+        entropias: array (n_amostras,) com H(x_j) para cada amostra (linha)
+    """
+    P = np.asarray(prob_matrix, dtype=float)
+    if P.ndim != 2:
+        raise ValueError("prob_matrix deve ser 2D: (n_amostras, n_especialistas).")
+    print(f'Shape: {P.shape}')
+    _, base = P.shape
+
+    H = []
+
+    for probs in P:
+        s = 0 # sum
+        for p_i in probs:
+            log_p_i = np.log(p_i) / np.log(base)
+            x = (p_i * log_p_i)
+            s += x
+        H.append(-s)
+
+    return np.array(H)
