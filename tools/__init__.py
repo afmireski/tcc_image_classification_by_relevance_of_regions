@@ -31,7 +31,8 @@ from .specialists import (
 
 from .relevance import (
     extract_model_results,
-    extract_specialists_probabilities
+    extract_specialists_probabilities,
+    shannon_entropy
 )
     
 __all__ = [
@@ -57,5 +58,7 @@ __all__ = [
     "train_specialists",
 
     "extract_model_results",
-    "extract_specialists_probabilities"
+    "extract_specialists_probabilities",
+    "shannon_entropy",
+    "shannon_entropy_manual"
 ]
