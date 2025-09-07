@@ -109,6 +109,8 @@ def train_specialists(base_model, train_func, specialist_sets, class_names, mode
         >>> # specialists[1] = especialista para "cats" 
         >>> # specialists[2] = especialista para "lions"
     """
+    from joblib import parallel_backend
+    
     specialists = []
     
     print(f"🚀 Iniciando treinamento de especialistas {model_name}")
@@ -117,34 +119,36 @@ def train_specialists(base_model, train_func, specialist_sets, class_names, mode
     print(f"   📊 Modo detalhado: {'Ativado' if verbose else 'Resumo apenas'}")
     print("-" * 60)
     
-    for i, dataset in enumerate(specialist_sets):
-        class_name = class_names[i]
-        specialist_title = f"{model_name}-Specialist-{class_name}"
-        
-        print(f"\n🎯 Treinando especialista {i+1}/{len(specialist_sets)}: {class_name}")
+    # Use threading backend para evitar problemas de memory mapping
+    with parallel_backend('threading'):
+        for i, dataset in enumerate(specialist_sets):
+            class_name = class_names[i]
+            specialist_title = f"{model_name}-Specialist-{class_name}"
+            
+            print(f"\n🎯 Treinando especialista {i+1}/{len(specialist_sets)}: {class_name}")
+                    
+            # Usa a função de treinamento assistido fornecida
+            try:
+                metrics = train_func(
+                    base_model=base_model,
+                    folded_dataset=dataset,
+                    title=specialist_title,
+                    verbose=verbose
+                )
                 
-        # Usa a função de treinamento assistido fornecida
-        try:
-            metrics = train_func(
-                base_model=base_model,
-                folded_dataset=dataset,
-                title=specialist_title,
-                verbose=verbose
-            )
-            
-            # Adiciona o modelo treinado ao array de especialistas
-            specialists.append(metrics)
+                # Adiciona o modelo treinado ao array de especialistas
+                specialists.append(metrics)
 
-            if not verbose:
-                # Mostra resumo compacto se verbose=False
-                f1_mean, f1_std = metrics['f1']
-                acc_mean, acc_std = metrics['accuracy']
-                print(f"   ✅ Especialista {class_name} treinado!")
-                print(f"      📈 F1: {f1_mean:.3f} ± {f1_std:.3f} | Acc: {acc_mean:.3f} ± {acc_std:.3f}")
-            
-        except Exception as e:
-            print(f"   ❌ Erro ao treinar especialista {class_name}: {str(e)}")
-            raise e
+                if not verbose:
+                    # Mostra resumo compacto se verbose=False
+                    f1_mean, f1_std = metrics['f1']
+                    acc_mean, acc_std = metrics['accuracy']
+                    print(f"   ✅ Especialista {class_name} treinado!")
+                    print(f"      📈 F1: {f1_mean:.3f} ± {f1_std:.3f} | Acc: {acc_mean:.3f} ± {acc_std:.3f}")
+                
+            except Exception as e:
+                print(f"   ❌ Erro ao treinar especialista {class_name}: {str(e)}")
+                raise e
     
     print(f"\n🎉 Treinamento de especialistas {model_name} concluído!")
     print(f"   ✅ {len(specialists)} especialistas treinados com sucesso")
