@@ -20,7 +20,9 @@ from .image_tools import (
     visualize_image_segmentation_dynamic,
     visualize_image_segmentation_auto,
     get_region_statistics,
-    reconstruct_image_from_regions
+    reconstruct_image_from_regions,
+    load_images_from_category,
+    load_train_images_dict,
 )
 
 from .specialists import (
@@ -66,4 +68,6 @@ __all__ = [
     "shannon_entropy_manual",
     "relevance",
     "max_relevance",
+    "load_images_from_category",
+    "load_train_images_dict",
 ]
