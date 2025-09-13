@@ -179,13 +179,18 @@ def parallel_calculate_glcm_from_many_images(
     symmetric=True,
     normed=True,
     n_jobs=-1,
-):
-    return Parallel(n_jobs=n_jobs, backend="threading")(
+) -> Dict[str, np.ndarray]:
+    # Execute parallel computation
+    results = Parallel(n_jobs=n_jobs, backend="threading")(
         delayed(calculate_glcm_from_segmented_image)(
             key, regions_matrix, distances, glcm_props, angles, levels, symmetric, normed
         )
         for key, regions_matrix in images.items()
     )
+    
+    # Convert list of results back to dictionary format
+    image_names = list(images.keys())
+    return {image_names[i]: results[i] for i in range(len(results))}
 
 
 def parallel_calculate_glcm_for_each_category(
@@ -211,6 +216,7 @@ def calculate_glcm_for_many_segmented_images(
     images: Dict[str, np.ndarray],
     distances: list[int],
     angles: np.ndarray,
+    glcm_props: list[str],
     levels: int,
     symmetric=True,
     normed=True,
@@ -222,6 +228,7 @@ def calculate_glcm_for_many_segmented_images(
         images: Dict of {image_name: regions_matrix}
         distances: List of distances for GLCM computation
         angles: Array of angles for GLCM computation
+        glcm_props: List of GLCM properties to extract
         levels: Number of gray levels for GLCM computation
         symmetric: Whether to use symmetric GLCM
         normed: Whether to normalize GLCM
@@ -233,7 +240,7 @@ def calculate_glcm_for_many_segmented_images(
 
     for image_name, regions_matrix in images.items():
         glcms[image_name] = calculate_glcm_from_segmented_image(
-            image_name, regions_matrix, distances, angles, levels, symmetric, normed
+            image_name, regions_matrix, distances, glcm_props, angles, levels, symmetric, normed
         )
 
     return glcms
@@ -244,6 +251,7 @@ def calculate_glcm_for_segments_by_categories(
     segmented_images: Dict[str, Dict[str, np.ndarray]],
     distances: list[int],
     angles: np.ndarray,
+    glcm_props: list[str],
     levels: int,
     symmetric=True,
     normed=True,
@@ -256,6 +264,7 @@ def calculate_glcm_for_segments_by_categories(
         segmented_images: Dict structure {category: {image_name: regions_matrix}}
         distances: List of distances for GLCM computation
         angles: Array of angles for GLCM computation
+        glcm_props: List of GLCM properties to extract
         levels: Number of gray levels for GLCM computation
         symmetric: Whether to use symmetric GLCM
         normed: Whether to normalize GLCM
@@ -265,7 +274,7 @@ def calculate_glcm_for_segments_by_categories(
     """
     return {
         category: calculate_glcm_for_many_segmented_images(
-            segmented_images[category], distances, angles, levels, symmetric, normed
+            segmented_images[category], distances, angles, glcm_props, levels, symmetric, normed
         )
         for category in categories
     }
