@@ -39,6 +39,13 @@ from .relevance import (
     relevance,
     max_relevance,
 )
+
+from .data import (
+    merge_categories_dicts,
+    generate_texture_dicts,
+    combine_sets,
+    show_features_summary
+)
     
 __all__ = [
     "segment_image_into_grid",
