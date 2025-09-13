@@ -579,18 +579,18 @@ def segment_image_auto(
 
 
 def segment_images_batch_auto(
-    images: List[np.ndarray],
+    images: Dict[str, np.ndarray],
     min_region_size: int = 128,
     min_k: int = 4,
     max_k: int = 20,
     base_size: int = 512,
     base_k: int = 9,
-) -> np.ndarray:
+) -> Tuple[Dict[str, np.ndarray], int, float]:
     """
     Automatically segments a batch of images with dynamic K calculation.
 
     Args:
-        images (List[np.ndarray]): List of grayscale images
+        images (Dict[str, np.ndarray]): Dictionary of grayscale images
         min_region_size (int): Minimum size for each region dimension
         min_k (int): Minimum K value
         max_k (int): Maximum K value
@@ -598,34 +598,40 @@ def segment_images_batch_auto(
         base_k (int): Reference K for base_size image
 
     Returns:
-        List[np.ndarray]: List of segmentation matrices, one for each input image.
+        (Dict[str, np.ndarray], int, float): Tuple containing:
+            - Dictionary of segmentation matrices for each image
+            - Total number of regions generated across all images
+            - Average number of regions per image
     """
-    all_segmented_images = np.array([])
+    all_segmented_images = {}
+    total_regions = 0
 
-    for i, image in enumerate(images):
+    for key, image in images.items():
         try:
             segmented_regions = segment_image_auto(
                 image, min_region_size, min_k, max_k, base_size, base_k
             )
-            all_segmented_images = np.append(all_segmented_images, segmented_regions)
+            all_segmented_images[key] = segmented_regions
+            total_regions += segmented_regions.shape[0] * segmented_regions.shape[1]
         except Exception as e:
-            print(f"Error processing image {i}: {e}")
+            print(f"Error processing image {key}: {e}")
             # Create single region fallback for failed images
             single_region_matrix = np.empty((1, 1), dtype=object)
             single_region_matrix[0, 0] = image
-            all_segmented_images = np.append(all_segmented_images, single_region_matrix)
+            all_segmented_images[key] = single_region_matrix
 
-    return all_segmented_images
+    k_mean = total_regions / len(images) if images else 0
+    return (all_segmented_images, total_regions, k_mean)
 
 
 def segment_images_by_category_auto(
-    images_by_category: Dict[str, List[np.ndarray]],
+    images_by_category: Dict[str, Dict[str, np.ndarray]],
     min_region_size: int = 128,
     min_k: int = 4,
     max_k: int = 20,
     base_size: int = 512,
     base_k: int = 9,
-) -> Dict[str, np.ndarray]:
+) -> Dict[str, Dict[str, np.ndarray]:]:
     """
     Automatically segments images organized by category with dynamic K calculation.
 
@@ -638,8 +644,7 @@ def segment_images_by_category_auto(
         base_k (int): Reference K for base_size image
 
     Returns:
-        Dict[str, List[np.ndarray]]: Dictionary with category names as keys and
-                                   lists of segmentation matrices as values
+        Dict[str, Dict[str, np.ndarray] :]: Dictionary with category names as keys and                                    dictionaries of segmentation matrices as values
     """
     segmented_by_category = {}
 
@@ -647,17 +652,13 @@ def segment_images_by_category_auto(
         print(
             f"Auto-segmenting {len(images)} images from category '{category}' (K range: {min_k}-{max_k})..."
         )
-        segmented_images = segment_images_batch_auto(
+        (segmented_images, total_regions, k_mean) = segment_images_batch_auto(
             images, min_region_size, min_k, max_k, base_size, base_k
         )
         segmented_by_category[category] = segmented_images
 
-        # Calculate statistics
-        total_regions = len(segmented_images)
-        k_mean = total_regions / len(images)
-
         print(f"  Generated average {k_mean:.1f} regions per image")
-        print(f"{category}:", segmented_images.shape)
+        print(f"{category}:", total_regions, "regions total")
 
     return segmented_by_category
 
@@ -774,22 +775,19 @@ def resize_with_padding(img, target_size=512):
 
 
 def load_images_from_category(
-    directory: str, 
-    category: str, 
-    allowed_extensions: List[str], 
-    resize: bool = True
+    directory: str, category: str, allowed_extensions: List[str], resize: bool = True
 ) -> Dict[str, np.ndarray]:
     """
     Load images from a specific category directory and return as dictionary.
-    
+
     Args:
         directory (str): Base directory path containing category subdirectories
         category (str): Category subdirectory name
         allowed_extensions (List[str]): List of allowed file extensions (e.g., ['.jpg', '.png'])
         resize (bool): Whether to resize images with padding to standard size
-        
+
     Returns:
-        Dict[str, np.ndarray]: Dictionary with filename (without extension) as key 
+        Dict[str, np.ndarray]: Dictionary with filename (without extension) as key
                               and processed grayscale image as value
     """
     import glob
@@ -824,20 +822,20 @@ def load_images_from_category(
 
 
 def load_train_images_dict(
-    directory: str, 
-    categories: List[str], 
-    allowed_extensions: List[str] = [".jpg", ".jpeg", ".png"], 
-    resize: bool = True
+    directory: str,
+    categories: List[str],
+    allowed_extensions: List[str] = [".jpg", ".jpeg", ".png"],
+    resize: bool = True,
 ) -> Dict[str, Dict[str, np.ndarray]]:
     """
     Load images from multiple categories and return nested dictionary structure.
-    
+
     Args:
         directory (str): Base directory path containing category subdirectories
         categories (List[str]): List of category names (subdirectory names)
         allowed_extensions (List[str]): List of allowed file extensions
         resize (bool): Whether to resize images with padding to standard size
-        
+
     Returns:
         Dict[str, Dict[str, np.ndarray]]: Nested dictionary structure:
                                         {category: {filename: image_array}}
