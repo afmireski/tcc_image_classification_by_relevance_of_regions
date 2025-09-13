@@ -2,8 +2,39 @@ import numpy as np
 from scipy.signal import convolve2d
 from scipy.spatial.distance import cdist
 
+from typing import Dict, List
 
-def lpq(img, winSize=7, decorr=1, mode="nh"):
+from pathlib import Path
+
+
+def lpq(img: np.ndarray, winSize=7, decorr=1, mode="nh") -> np.ndarray:
+    """
+    Local Phase Quantization (LPQ) texture descriptor implementation.
+    
+    LPQ is a texture descriptor that extracts local phase information using
+    Short-Time Fourier Transform (STFT) in a local window around each pixel.
+    
+    Args:
+        img (np.ndarray): Input grayscale image (2D array)
+        winSize (int): Size of the local window (default: 7)
+        decorr (int): Apply decorrelation (1) or not (0) (default: 1)
+        mode (str): Output mode:
+                   - "nh": Normalized histogram (default)
+                   - "h": Histogram
+                   - "im": LPQ code image
+                   
+    Returns:
+        np.ndarray: LPQ descriptor
+                   - For mode "nh"/"h": 256-element histogram
+                   - For mode "im": LPQ code image with same spatial dimensions
+                   
+    Note:
+        The LPQ descriptor is computed by:
+        1. Computing STFT responses at 4 frequency points
+        2. Optional decorrelation using whitening transform
+        3. Quantizing phase information into 8-bit codes
+        4. Computing histogram of quantized codes (for histogram modes)
+    """
     rho = 0.90
 
     STFTalpha = (
@@ -98,11 +129,189 @@ def lpq(img, winSize=7, decorr=1, mode="nh"):
 
     return LPQdesc
 
+def extract_lpq_features_from_regions(
+    image_name: str,
+    regions_matrix: np.ndarray, 
+    winSize=7, 
+    decorr=1, 
+    mode="nh"
+) -> np.ndarray:
+    """
+    Extract LPQ features from all regions in a segmented image matrix with caching support.
+    
+    Args:
+        image_name (str): Name of the image file (without extension)
+        regions_matrix (np.ndarray): Matrix containing image segments (rows x cols x region_data)
+        winSize (int): Window size for LPQ computation (default: 7)
+        decorr (int): Decorrelation flag (default: 1)
+        mode (str): LPQ mode - "nh" for normalized histogram (default: "nh")
+        
+    Returns:
+        np.ndarray: Array containing LPQ features for all valid regions
+    """
+        
+    # Define cache directory and file path
+    cache_dir = Path("features/lpqs")
+    cache_file = cache_dir / f"{image_name}_segmented_lpq.npy"
+    
+    # Create cache directory if it doesn't exist
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Try to load from cache first
+    if cache_file.exists():
+        try:
+            features_array = np.load(cache_file)
+            return features_array
+        except Exception as e:
+            print(f"Warning: Failed to load cached segmented LPQ for {image_name}: {e}")
+            # Continue to compute LPQ if loading fails
+    
+    # Compute LPQ for all segments
+    features_list = []
+    rows, cols = regions_matrix.shape
+    
+    for row in range(rows):
+        for col in range(cols):
+            region = regions_matrix[row, col]
+            if _is_valid_region(region):
+                try:
+                    lpq_features = lpq(region, winSize, decorr, mode)
+                    features_list.append(lpq_features)
+                except Exception as e:
+                    print(f"Warning: Failed to compute LPQ for {image_name} region ({row},{col}): {e}")
+                    raise e
+    
+    features_array = np.array(features_list)
+    
+    # Save to cache
+    try:
+        np.save(cache_file, features_array)
+    except Exception as e:
+        print(f"Warning: Failed to save segmented LPQ cache for {image_name}: {e}")
+    
+    return features_array
+
+
+def _is_valid_region(region) -> bool:
+    """
+    Check if a region is valid for LPQ computation.
+    
+    Args:
+        region: Region data to validate
+        
+    Returns:
+        bool: True if region is valid, False otherwise
+    """
+    return (
+        region is not None 
+        and hasattr(region, 'shape') 
+        and region.size > 0
+        and len(region.shape) == 2  # Ensure it's a 2D array
+        and region.shape[0] > 0 
+        and region.shape[1] > 0
+    )
+
+def extract_lpq_features_from_segmented_images(
+    images: Dict[str, np.ndarray], winSize=7, decorr=1, mode="nh"
+) -> Dict[str, np.ndarray]:
+    """
+    Extract LPQ features from multiple segmented images with caching support.
+    
+    Args:
+        images (Dict[str, np.ndarray]): Dictionary of {image_name: regions_matrix}
+        winSize (int): Window size for LPQ computation (default: 7)
+        decorr (int): Decorrelation flag (default: 1)
+        mode (str): LPQ mode - "nh" for normalized histogram (default: "nh")
+        
+    Returns:
+        Dict[str, np.ndarray]: Dictionary of {image_name: features_array}
+    """
+    return {
+        image_name: extract_lpq_features_from_regions(image_name, regions_matrix, winSize, decorr, mode)
+        for image_name, regions_matrix in images.items()
+    }
 
 def extract_lpq_features_for_each_category(
-    categories, images, winSize=7, decorr=1, mode="nh"
-):
+    categories: List[str], 
+    images: Dict[str, Dict[str, np.ndarray]], 
+    winSize=7, 
+    decorr=1, 
+    mode="nh"
+) -> Dict[str, Dict[str, np.ndarray]]:
+    """
+    Extract LPQ features for segmented images organized by category.
+    
+    Args:
+        categories (List[str]): List of category names
+        images (Dict[str, Dict[str, np.ndarray]]): Nested dictionary structure 
+                                                  {category: {image_name: regions_matrix}}
+        winSize (int): Window size for LPQ computation (default: 7)
+        decorr (int): Decorrelation flag (default: 1)
+        mode (str): LPQ mode - "nh" for normalized histogram (default: "nh")
+        
+    Returns:
+        Dict[str, Dict[str, np.ndarray]]: Dictionary structure 
+                                        {category: {image_name: features_array}}
+    """
     return {
-        category: [lpq(img, winSize, decorr, mode) for img in images[category]]
+        category: extract_lpq_features_from_segmented_images(
+            images[category], winSize, decorr, mode
+        )
+        for category in categories
+    }
+
+
+def extract_lpq_features_for_many_segmented_images(
+    images: Dict[str, np.ndarray],
+    winSize=7,
+    decorr=1,
+    mode="nh",
+) -> Dict[str, np.ndarray]:
+    """
+    Extract LPQ features for all segmented images in a single category.
+    
+    Args:
+        images: Dict of {image_name: regions_matrix}
+        winSize: Window size for LPQ computation
+        decorr: Decorrelation flag
+        mode: LPQ mode
+        
+    Returns:
+        Dict structure {image_name: features_array}
+    """
+    lpqs = {}
+    
+    for image_name, regions_matrix in images.items():
+        lpqs[image_name] = extract_lpq_features_from_regions(
+            image_name, regions_matrix, winSize, decorr, mode
+        )
+    
+    return lpqs
+
+
+def extract_lpq_features_for_segments_by_categories(
+    categories: List[str],
+    segmented_images: Dict[str, Dict[str, np.ndarray]],
+    winSize=7,
+    decorr=1,
+    mode="nh",
+) -> Dict[str, Dict[str, np.ndarray]]:
+    """
+    Extract LPQ features for segmented images organized by category.
+    
+    Args:
+        categories: List of category names
+        segmented_images: Dict structure {category: {image_name: regions_matrix}}
+        winSize: Window size for LPQ computation
+        decorr: Decorrelation flag
+        mode: LPQ mode
+        
+    Returns:
+        Dict structure {category: {image_name: features_array}}
+    """
+    return {
+        category: extract_lpq_features_for_many_segmented_images(
+            segmented_images[category], winSize, decorr, mode
+        )
         for category in categories
     }
