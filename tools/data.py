@@ -398,14 +398,14 @@ def _extract_features_and_labels(
 
         # Registrar posições no mapa
         start_pos = current_position
-        end_pos = current_position + n_segments
+        end_pos = current_position + n_segments - 1
 
         features_map[img_name] = (start_pos, end_pos)
 
-        current_position = end_pos
+        current_position = end_pos + 1
 
     # Concatenar todas as features
-    X = np.vstack(X_list) if X_list else np.array([]).reshape(0, 0)
+    X = np.vstack(X_list)
     y = np.array(y_list)
 
     return (X, y, features_map)
@@ -473,7 +473,7 @@ def build_classification_data(
             f"  ✅ Treino: {train_images} imagens → X{train_X_shape}, y{train_data[1].shape}"
         )
         print(
-            f"  ✅ Teste: {test_images} imagens → X{test_X_shape}, y{test_data['y'].shape}"
+            f"  ✅ Teste: {test_images} imagens → X{test_X_shape}, y{test_data[1].shape}"
         )
 
     print(f"\n🎉 {len(processed_folds)} folds processados com sucesso!")
