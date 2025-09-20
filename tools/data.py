@@ -1,7 +1,24 @@
 import numpy as np
 import random
 
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, TypedDict
+
+
+class FoldData(TypedDict):
+    """Estrutura de dados para cada fold de validação cruzada"""
+    fold_id: int
+    train_class_features: Dict[str, np.ndarray]
+    train_no_class_features: Dict[str, np.ndarray]
+    train_true_map: Dict[str, int]
+    test_class_features: Dict[str, np.ndarray]
+    test_no_class_features: Dict[str, np.ndarray]
+    test_true_map: Dict[str, int]
+    train_class_count: int
+    train_no_class_count: int
+    test_class_count: int
+    test_no_class_count: int
+    train_total: int
+    test_total: int
 
 
 def merge_categories_dicts(
@@ -171,16 +188,15 @@ def show_features_summary(
     print("=" * 50)
 
 
-def build_train_data_with_folds(
+def split_data_in_folds(
     data: Tuple[
         Tuple[Dict[str, np.ndarray], int],
         Tuple[Dict[str, np.ndarray], int],
         Dict[str, int],
     ],
     k_folds=5,
-    train_factor=0.8,
     random_state=42,
-):
+) -> List[FoldData]:
     """
     Constrói dados de treino com k-folds a partir do conjunto de especialistas.
     
@@ -245,6 +261,9 @@ def build_train_data_with_folds(
     # 3. Construir cada fold
     folds_data = []
     
+    # print("=" * 20)
+    # print(class_images)
+
     for k in range(k_folds):
         print(f"\n🔧 Construindo fold {k}...")
         
@@ -284,11 +303,11 @@ def build_train_data_with_folds(
         for img in test_no_class_images:
             test_true_map[img] = true_map[img]
 
-        print("+" * 20)
-        print(train_class_dict.keys())
-        print("-" * 20)
-        print(test_class_dict.keys())
-        print("+" * 20)
+        # print("+" * 20)
+        # print(train_class_dict.keys())
+        # print("-" * 20)
+        # print(test_class_dict.keys())
+        # print("+" * 20)
         
         # Armazenar dados do fold em variáveis separadas
         fold_data = {
@@ -313,6 +332,7 @@ def build_train_data_with_folds(
         print(f"  ✅ Teste: {len(test_class_images)} classe + {len(test_no_class_images)} não-classe = {fold_data['test_total']}")
     
     print(f"\n🎉 {k_folds} folds construídos com sucesso!")
+    # print("=" * 20)
     
     # Retornar dados em variáveis separadas para fase 2
     return folds_data
