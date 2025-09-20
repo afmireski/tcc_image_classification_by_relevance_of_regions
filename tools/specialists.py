@@ -1,10 +1,7 @@
 import numpy as np
-from typing import Dict, List, Tuple
+from typing import Dict, List, Any
 
-# (class_tuple), (no_class_tuple), (true_map)
-SpecialistSet = Tuple[
-    Tuple[Dict[str, np.ndarray], int], Tuple[Dict[str, np.ndarray], int], Dict[str, int]
-]
+from mytypes import SpecialistSet, PreparedSetsForClassification
 
 def build_specialist_set(
     features_set: Dict[str, np.ndarray],
@@ -70,10 +67,10 @@ def build_specialist_set_for_many_classes(
 
 
 def train_specialists(
-    base_model,
-    train_func,
-    specialist_sets,
-    class_names,
+    base_model: Any,
+    train_func: Any,
+    specialist_sets: PreparedSetsForClassification,
+    class_names: List[str],
     model_name="Specialist",
     k_folds=5,
     verbose=False,

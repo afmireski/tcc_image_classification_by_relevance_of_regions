@@ -1,40 +1,15 @@
 import numpy as np
 import random
 
-from typing import Dict, List, Tuple, TypedDict
+from typing import Dict, List, Tuple
 
-from specialists import SpecialistSet
-
-
-class FoldData(TypedDict):
-    """Estrutura de dados para cada fold de validação cruzada"""
-
-    fold_id: int
-    train_class_features: Dict[str, np.ndarray]
-    train_no_class_features: Dict[str, np.ndarray]
-    train_true_map: Dict[str, int]
-    test_class_features: Dict[str, np.ndarray]
-    test_no_class_features: Dict[str, np.ndarray]
-    test_true_map: Dict[str, int]
-    train_class_count: int
-    train_no_class_count: int
-    test_class_count: int
-    test_no_class_count: int
-    train_total: int
-    test_total: int
-
-
-ClassificationData = Tuple[np.ndarray, np.ndarray, Dict[str, Tuple[int, int]]]
-
-# Aliases para tipos complexos
-ClassificationFold = Tuple[
-    ClassificationData,  # dados de treino
-    ClassificationData,  # dados de teste
-]
-
-ClassificationDataset = List[ClassificationFold]
-
-PreparedSetsForClassification = List[ClassificationDataset]
+from mytypes import (
+    SpecialistSet,
+    PreparedSetsForClassification,
+    FoldData,
+    ClassificationData,
+    ClassificationDataset,
+)
 
 
 def merge_categories_dicts(
@@ -371,7 +346,7 @@ def _extract_features_and_labels(
     Args:
         class_features: Dicionário com features da classe
         no_class_features: Dicionário com features não-classe
-        true_map: Mapeamento de imagem para label verdadeiro
+        piece_map: Diz a qual imagem cada pedaço pertence
 
     Returns:
         ClassificationData com X, y e features_map
@@ -408,12 +383,13 @@ def _extract_features_and_labels(
         y_list.extend([label] * n_segments)
 
         # Registrar posições no mapa
-        start_pos = current_position
-        end_pos = current_position + n_segments - 1
+        end_pos = current_position + n_segments
 
-        features_map[img_name] = (start_pos, end_pos)
+        for i in range(current_position, end_pos):
+            # Registra para o pedaço, a qual imagem ele pertence.
+            features_map[i] = img_name
 
-        current_position = end_pos + 1
+        current_position = end_pos
 
     # Concatenar todas as features
     X = np.vstack(X_list)
