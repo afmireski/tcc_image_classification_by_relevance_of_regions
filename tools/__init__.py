@@ -36,8 +36,8 @@ from .relevance import (
     extract_specialists_probabilities,
     shannon_entropy,
     shannon_entropy_manual,
-    relevance,
-    max_relevance,
+    calculate_relevance,
+    calculate_max_relevance,
 )
 
 from .data import (
@@ -73,8 +73,13 @@ __all__ = [
     "extract_specialists_probabilities",
     "shannon_entropy",
     "shannon_entropy_manual",
-    "relevance",
-    "max_relevance",
+    "calculate_relevance",
+    "calculate_max_relevance",
     "load_images_from_category",
     "load_train_images_dict",
+
+    "merge_categories_dicts",
+    "generate_texture_dicts",
+    "combine_sets",
+    "show_features_summary"
 ]

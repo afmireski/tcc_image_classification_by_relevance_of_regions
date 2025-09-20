@@ -2,12 +2,14 @@ import numpy as np
 from typing import List, Tuple
 from sklearn.base import BaseEstimator
 
+from mytypes import PreparedSetsForClassification, ClassificationDataset
+
 
 def extract_model_results(
     base_model: BaseEstimator, 
-    folded_dataset: List[Tuple[Tuple[np.ndarray, np.ndarray], Tuple[np.ndarray, np.ndarray]]], 
+    folded_dataset: ClassificationDataset, 
     title: str = ""
-) -> np.ndarray:
+) -> Tuple[np.ndarray, np.ndarray]:
     """
     Extrai probabilidades positivas de um modelo usando validação cruzada.
     
@@ -22,7 +24,8 @@ def extract_model_results(
     from sklearn.base import clone
     
     probabilities = np.array([])
-    
+    probabilities_imgs = np.array([]) # Imagem correspondente a cada probabilidade
+
     # Validação cruzada para avaliação
     print(f"=== Iniciando treinamento assistido: {title} ===")
     print(f"Validação cruzada: {len(folded_dataset)} folds")
@@ -30,7 +33,7 @@ def extract_model_results(
         
     
     # Validação cruzada para avaliação
-    for (X_train, y_train), (X_test, y_test) in folded_dataset:
+    for (X_train, y_train), (X_test, y_test, test_pieces_map) in folded_dataset:
 
         # Clona o modelo base para cada fold
         fold_model = clone(base_model)
@@ -40,17 +43,23 @@ def extract_model_results(
 
         predict = fold_model.predict_proba(X_test)
 
-        positive_probabilities = [p[0] for p in predict]
+        positive_probabilities = []
+        pieces_imgs = []
+        for i, p in enumerate(predict):
+            positive_probabilities.append(p[0])
+            pieces_imgs.append(test_pieces_map[i])
+
         probabilities = np.append(probabilities, positive_probabilities)
+        probabilities_imgs = np.append(probabilities_imgs, pieces_imgs)
 
     print("-" * 50)
-    return probabilities
+    return (probabilities, probabilities_imgs)
 
 
 def extract_specialists_probabilities(
     base_model: BaseEstimator,
     extract_func: callable,
-    specialist_sets: List[List[Tuple[Tuple[np.ndarray, np.ndarray], Tuple[np.ndarray, np.ndarray]]]],
+    specialist_sets: PreparedSetsForClassification,
     class_names: List[str],
     model_name: str = "Specialist",
     k_folds: int = 5
@@ -72,6 +81,7 @@ def extract_specialists_probabilities(
     from joblib import parallel_backend
     
     raw_probabilities = []
+    imgs_map = []  # Mapa de imagens para cada probabilidade
     
     print(f"🚀 Iniciando treinamento de especialistas {model_name}")
     print(f"   📋 {len(specialist_sets)} especialistas para treinar")
@@ -88,7 +98,7 @@ def extract_specialists_probabilities(
                     
             # Usa a função de treinamento assistido fornecida
             try:
-                specialist_probabilities = extract_func(
+                (specialist_probabilities, probs_imgs) = extract_func(
                     base_model=base_model,
                     folded_dataset=dataset,
                     title=specialist_title
@@ -96,6 +106,7 @@ def extract_specialists_probabilities(
                 
                 # Adiciona o modelo treinado ao array de especialistas
                 raw_probabilities.append(specialist_probabilities)
+                imgs_map.append(probs_imgs)
 
                 
             except Exception as e:
@@ -106,8 +117,8 @@ def extract_specialists_probabilities(
     print(f"   ✅ {len(raw_probabilities)} especialistas treinados com sucesso")
     print("   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i")
     print("=" * 60)
-    
-    return normalize_probabilities(raw_probabilities)
+
+    return (normalize_probabilities(raw_probabilities), imgs_map)
 
 def normalize_probabilities(raw_probabilities: List[np.ndarray]) -> np.ndarray:
     """
@@ -188,7 +199,7 @@ def shannon_entropy_manual(prob_matrix: np.ndarray) -> np.ndarray:
 
     return np.array(H)
 
-def relevance(entropies: np.array) -> np.array:
+def calculate_relevance(entropies: np.array) -> np.array:
     """
     Calcula R(x_j) para um vetor de entropias H(x_j)
     R(x_j) = 1 - H(x_j).
@@ -201,7 +212,7 @@ def relevance(entropies: np.array) -> np.array:
     """
     return 1.0 - entropies
 
-def max_relevance(relevances: np.array, prob_matrix: np.ndarray) -> np.array:
+def calculate_max_relevance(relevances: np.array, prob_matrix: np.ndarray) -> np.array:
     """
     Calcula R_max(x_j) para um vetor de relevâncias R(x_j)
     R_max(x_j) = R(x_j) * max(P(x_j)).
