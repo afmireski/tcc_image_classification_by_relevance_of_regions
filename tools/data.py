@@ -3,6 +3,8 @@ import random
 
 from typing import Dict, List, Tuple, TypedDict
 
+from specialists import SpecialistSet
+
 
 class FoldData(TypedDict):
     """Estrutura de dados para cada fold de validação cruzada"""
@@ -20,6 +22,19 @@ class FoldData(TypedDict):
     test_no_class_count: int
     train_total: int
     test_total: int
+
+
+ClassificationData = Tuple[np.ndarray, np.ndarray, Dict[str, Tuple[int, int]]]
+
+# Aliases para tipos complexos
+ClassificationFold = Tuple[
+    ClassificationData,  # dados de treino
+    ClassificationData,  # dados de teste
+]
+
+ClassificationDataset = List[ClassificationFold]
+
+PreparedSetsForClassification = List[ClassificationDataset]
 
 
 def merge_categories_dicts(
@@ -190,11 +205,7 @@ def show_features_summary(
 
 
 def split_data_in_folds(
-    data: Tuple[
-        Tuple[Dict[str, np.ndarray], int],
-        Tuple[Dict[str, np.ndarray], int],
-        Dict[str, int],
-    ],
+    data: SpecialistSet,
     k_folds=5,
     random_state=42,
 ) -> List[FoldData]:
@@ -234,26 +245,26 @@ def split_data_in_folds(
     print(f"🔄 Dividindo em {k_folds} folds...")
 
     # 2. Dividir cada classe em k_folds partes aproximadamente iguais
-    def dividir_em_k_partes(lista, k):
+    def divide_in_k_parts(items, k):
         """Divide uma lista em k partes aproximadamente iguais"""
-        n = len(lista)
-        tamanho_base = n // k
-        resto = n % k
+        n = len(items)
+        base_size = n // k
+        rest = n % k
 
-        partes = []
-        inicio = 0
+        parts = []
+        begin = 0
 
         for i in range(k):
             # Distribui o resto nas primeiras partições
-            tamanho = tamanho_base + (1 if i < resto else 0)
-            fim = inicio + tamanho
-            partes.append(lista[inicio:fim])
-            inicio = fim
+            part_size = base_size + (1 if i < rest else 0)
+            end = begin + part_size
+            parts.append(items[begin:end])
+            begin = end
 
-        return partes
+        return parts
 
-    class_folds = dividir_em_k_partes(class_images, k_folds)
-    no_class_folds = dividir_em_k_partes(no_class_images, k_folds)
+    class_folds = divide_in_k_parts(class_images, k_folds)
+    no_class_folds = divide_in_k_parts(no_class_images, k_folds)
 
     # Verificar distribuição
     for i in range(k_folds):
@@ -353,7 +364,7 @@ def _extract_features_and_labels(
     class_features: Dict[str, np.ndarray],
     no_class_features: Dict[str, np.ndarray],
     true_map: Dict[str, int],
-) -> Tuple[np.ndarray, np.ndarray, Dict[str, Tuple[int, int]]]:
+) -> ClassificationData:
     """
     Extrai features e labels de dicionários de classe e não-classe.
 
@@ -413,12 +424,7 @@ def _extract_features_and_labels(
 
 def build_classification_data(
     folded_data: List[FoldData],
-) -> List[
-    Tuple[
-        Tuple[np.ndarray, np.ndarray, Dict[str, Tuple[int, int]]],
-        Tuple[np.ndarray, np.ndarray, Dict[str, Tuple[int, int]]],
-    ]
-]:
+) -> ClassificationDataset:
     """
     Converte dados de folds em formato adequado para classificação.
 
@@ -482,23 +488,10 @@ def build_classification_data(
 
 
 def prepare_sets_for_classification(
-    sets: List[
-        Tuple[
-            Tuple[Dict[str, np.ndarray], int],
-            Tuple[Dict[str, np.ndarray], int],
-            Dict[str, int],
-        ]
-    ],
+    sets: List[SpecialistSet],
     k_folds=5,
     random_state=42,
-) -> List[
-    List[
-        Tuple[
-            Tuple[np.ndarray, np.ndarray, Dict[str, Tuple[int, int]]],
-            Tuple[np.ndarray, np.ndarray, Dict[str, Tuple[int, int]]],
-        ]
-    ]
-]:
+) -> PreparedSetsForClassification:
     """
     Prepara os conjuntos de dados para classificação, dividindo-os em folds e extraindo as características.
 

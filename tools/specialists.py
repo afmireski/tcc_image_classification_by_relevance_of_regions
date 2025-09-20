@@ -1,14 +1,16 @@
 import numpy as np
 from typing import Dict, List, Tuple
 
+# (class_tuple), (no_class_tuple), (true_map)
+SpecialistSet = Tuple[
+    Tuple[Dict[str, np.ndarray], int], Tuple[Dict[str, np.ndarray], int], Dict[str, int]
+]
 
 def build_specialist_set(
     features_set: Dict[str, np.ndarray],
     labels_set: List[str],
     specialist_class: str,
-) -> Tuple[
-    Tuple[Dict[str, np.ndarray], int], Tuple[Dict[str, np.ndarray], int], Dict[str, int]
-]:
+) -> SpecialistSet:
     class_features = {}
     true_map = {}
     no_class_features = {}
@@ -53,13 +55,7 @@ def build_specialist_set_for_many_classes(
     features_set: Dict[str, np.ndarray],
     labels_set: List[str],
     specialist_classes: List[str],
-) -> List[
-    Tuple[
-        Tuple[Dict[str, np.ndarray], int],
-        Tuple[Dict[str, np.ndarray], int],
-        Dict[str, int],
-    ]
-]:
+) -> List[SpecialistSet]:
     """
     Constrói conjuntos de especialistas para múltiplas classes.
     """
