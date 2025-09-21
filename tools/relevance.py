@@ -276,32 +276,46 @@ def calculate_max_relevance(relevances: ModelResults, probabilities: ModelResult
         relevances: dicionário {img_id: [R_max(x_0), R_max(x_1), ..., R_max(x_n)]} com R_max(x_j) para cada amostra
     """
     result = {}
-    i = 0
     for img, R in relevances.items():
         P = probabilities.get(img)
 
         # Converte para arrays numpy com dtype float para garantir compatibilidade
-        print("="*50)
-        print(f'Calculando R_max para imagem {img}:')
-        print(f'  Relevâncias R: {R}')
-        print(f'  Probabilidades P: {P}')
-
         R_array = np.asarray(R, dtype=float)
         P_array = np.asarray(P, dtype=float)
         
         # Calcula R_max = R * max(P) ao longo do eixo dos especialistas
         max_probs = P_array.max(axis=1)
-        print(f'  Máximas probabilidades por amostra: {max_probs}')
 
         R_max = R_array * max_probs
-        print(f'  R_max: {R_max}')
-        
-        print("="*50)
 
         result[img] = R_max
 
-        i += 1
-        if i >= 1:
-            break  # Apenas para debug, remove esta linha em produção
 
     return result
+
+def calculate_ponderate_votes(probabilities: ModelResults, max_relevances: ModelResults) -> ModelResults:
+    """
+    Calcula votos ponderados para cada segmento de uma imagem.
+    Voto ponderado = P(x_j) * R_max(x_j).
+
+    Args:
+        probabilities: dicionário {img_id: [[P_0(x_0), P_0(x_1), ...], [P_1(x_0), P_1(x_1), ...], ...]} com P(x_j) para cada amostra
+        max_relevances: dicionário {img_id: [R_max(x_0), R_max(x_1), ..., R_max(x_n)]} com R_max(x_j) para cada amostra
+
+    Returns:
+        votos_ponderados: dicionário {img_id: [[V_0(x_0), V_0(x_1), ...], [V_1(x_0), V_1(x_1), ...], ...]} com votos ponderados para cada especialista
+    """
+    weighted_votes = {}
+    for img, P in probabilities.items():
+        R_max = max_relevances.get(img)
+
+        # Converte para arrays numpy com dtype float para garantir compatibilidade
+        P_array = np.asarray(P, dtype=float)
+        R_max_array = np.asarray(R_max, dtype=float)
+
+        # Calcula votos ponderados
+        votes = P_array * R_max_array[:, np.newaxis]  # Broadcasting para multiplicar cada linha por R_max correspondente
+
+        weighted_votes[img] = votes
+
+    return weighted_votes
