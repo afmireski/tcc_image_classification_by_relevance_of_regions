@@ -339,3 +339,22 @@ def calculate_accumulated_votes(ponderated_votes: ModelResults) -> ModelResults:
         accumulated_votes[img] = accumulated
 
     return accumulated_votes
+
+def compute_image_label(accumulated_votes: ModelResults) -> ModelResults:
+    """
+    Determina o rótulo final de cada imagem com base nos votos acumulados.
+    Rótulo = índice do especialista com maior voto acumulado.
+
+    Args:
+        accumulated_votes: dicionário {img_id: [S_0, S_1, ..., S_n]} com votos acumulados para especialista
+
+    Returns:
+        image_labels: dicionário {img_id: label} com rótulo final da imagem
+    """
+    image_labels = {}
+    for img, votes in accumulated_votes.items():
+        votes_array = np.asarray(votes, dtype=float)
+        label = int(np.argmax(votes_array))  # Índice do especialista com maior voto acumulado
+        image_labels[img] = label
+
+    return image_labels
