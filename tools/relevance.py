@@ -223,7 +223,7 @@ def shannon_entropy_manual(probabilities: ModelResults) -> ModelResults:
     H(x_j) = - sum_i P_i(x_j) * log_base(P_i(x_j)), com base = n_especialistas por padrão.
 
     Args:
-        prob_matrix: array (n_amostras, n_especialistas), cada linha soma ~1.0
+        probabilities: dicionário {img_id: [[specialist0_prob_segment_0, specialist0_prob_segment_1, ...], [specialist1_prob_segment_0, ...], ...]}
 
     Returns:
         entropias: array (n_amostras,) com H(x_j) para cada amostra (linha)
@@ -249,30 +249,59 @@ def shannon_entropy_manual(probabilities: ModelResults) -> ModelResults:
     return entropies
 
 
-def calculate_relevance(entropies: np.array) -> np.array:
+def calculate_relevance(entropies: ModelResults) -> ModelResults:
     """
-    Calcula R(x_j) para um vetor de entropias H(x_j)
+    Calcula R(x_j) para cada segmento de uma imagem a partir de suas entropias H(x_j).
     R(x_j) = 1 - H(x_j).
 
     Args:
-        entropies: array (n_amostras,) com H(x_j) para cada amostra
+        entropies: dicionário {img_id: [H(x_0), H(x_1), ..., H(x_n)]} com H(x_j) para cada amostra
 
     Returns:
-        relevancias: array (n_amostras,) com R(x_j) para cada amostra
+        relevancias: dicionário {img_id: [R(x_0), R(x_1), ..., R(x_n)]} com R(x_j) para cada amostra
     """
-    return 1.0 - entropies
+    return {img: 1.0 - H for img, H in entropies.items()}
 
 
-def calculate_max_relevance(relevances: np.array, prob_matrix: np.ndarray) -> np.array:
+def calculate_max_relevance(relevances: ModelResults, probabilities: ModelResults) -> ModelResults:
     """
-    Calcula R_max(x_j) para um vetor de relevâncias R(x_j)
+    Calcula R_max(x_j) para as relevâncias R(x_j) de cada imagem, ponderando pela maior probabilidade entre especialistas.
     R_max(x_j) = R(x_j) * max(P(x_j)).
 
     Args:
-        relevances: array (n_amostras,) com R(x_j) para cada amostra
-        prob_matrix: array (n_amostras, n_especialistas) com P(x_j) para cada amostra
+        relevances: dicionário {img_id: [R(x_0), R(x_1), ..., R(x_n)]} com R(x_j) para cada amostra
+        probabilities: dicionário {img_id: [[P_0(x_0), P_0(x_1), ...], [P_1(x_0), P_1(x_1), ...], ...]} com P(x_j) para cada amostra
 
     Returns:
-        relevances: array (n_amostras,) com R_max(x_j) para cada amostra
+        relevances: dicionário {img_id: [R_max(x_0), R_max(x_1), ..., R_max(x_n)]} com R_max(x_j) para cada amostra
     """
-    return relevances * prob_matrix.max(axis=1)
+    result = {}
+    i = 0
+    for img, R in relevances.items():
+        P = probabilities.get(img)
+
+        # Converte para arrays numpy com dtype float para garantir compatibilidade
+        print("="*50)
+        print(f'Calculando R_max para imagem {img}:')
+        print(f'  Relevâncias R: {R}')
+        print(f'  Probabilidades P: {P}')
+
+        R_array = np.asarray(R, dtype=float)
+        P_array = np.asarray(P, dtype=float)
+        
+        # Calcula R_max = R * max(P) ao longo do eixo dos especialistas
+        max_probs = P_array.max(axis=1)
+        print(f'  Máximas probabilidades por amostra: {max_probs}')
+
+        R_max = R_array * max_probs
+        print(f'  R_max: {R_max}')
+        
+        print("="*50)
+
+        result[img] = R_max
+
+        i += 1
+        if i >= 1:
+            break  # Apenas para debug, remove esta linha em produção
+
+    return result
