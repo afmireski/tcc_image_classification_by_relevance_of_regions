@@ -1,6 +1,9 @@
+import importlib
 import numpy as np
 from typing import Dict, List, Any
 
+import mytypes as mtp
+importlib.reload(mtp)
 from mytypes import SpecialistSet, PreparedSetsForClassification
 
 def build_specialist_set(

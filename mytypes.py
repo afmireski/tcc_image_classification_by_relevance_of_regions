@@ -35,3 +35,5 @@ ClassificationFold = Tuple[
 ClassificationDataset = List[ClassificationFold]
 
 PreparedSetsForClassification = List[ClassificationDataset]
+
+ModelResults = Dict[str, List[float]]  # {img_id: [prob_segment_0, prob_segment_1, ...]}

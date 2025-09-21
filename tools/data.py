@@ -1,7 +1,11 @@
+import importlib
 import numpy as np
 import random
 
 from typing import Dict, List, Tuple
+
+import mytypes as mtp
+importlib.reload(mtp)
 
 from mytypes import (
     SpecialistSet,
