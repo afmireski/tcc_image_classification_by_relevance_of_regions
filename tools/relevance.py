@@ -340,7 +340,7 @@ def calculate_accumulated_votes(ponderated_votes: ModelResults) -> ModelResults:
 
     return accumulated_votes
 
-def compute_image_label(accumulated_votes: ModelResults) -> ModelResults:
+def predict_labels(accumulated_votes: ModelResults) -> ModelResults:
     """
     Determina o rótulo final de cada imagem com base nos votos acumulados.
     Rótulo = índice do especialista com maior voto acumulado.
