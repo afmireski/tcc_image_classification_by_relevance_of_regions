@@ -4,6 +4,7 @@ from typing import List
 from sklearn.base import BaseEstimator, clone
 
 import mytypes as mtp
+
 importlib.reload(mtp)
 
 from mytypes import PreparedSetsForClassification, ClassificationDataset, ModelResults
@@ -55,6 +56,7 @@ def extract_model_results(
     print("-" * 50)
     return probabilities
 
+
 def consolidate_model_results(specialists_results: List[ModelResults]) -> ModelResults:
     """
     Consolida resultados de múltiplos folds em um único dicionário.
@@ -65,15 +67,22 @@ def consolidate_model_results(specialists_results: List[ModelResults]) -> ModelR
     Returns:
         Dicionário consolidado {img_id: [[specialist0_prob_segment_0, specialist0_prob_segment_1, ...], [specialist1_prob_segment_0, ...], ...]}
     """
+    all_images = set()
+    for specialist_results in specialists_results:
+        all_images.update(specialist_results.keys())
+
     consolidated = {}
 
-    for results in specialists_results:
-        for img, probs in results.items():
-            if consolidated.get(img) is None:
-                consolidated[img] = np.array(probs)
-            else:
-                consolidated[img] = np.vstack((consolidated[img], probs))
-        consolidated[img] = consolidated[img].T # Transpõe para ter shape (n_probabilities, n_specialists)
+    for img in all_images:
+        img_probs = []
+
+        for results in specialists_results:
+            probs = results.get(img)
+            img_probs.append(probs if probs is not None else [])
+
+        consolidated[img] = np.array(
+            img_probs
+        ).T  # Transpõe para ter shape (n_probabilities, n_specialists)
 
     return consolidated
 
@@ -156,37 +165,54 @@ def normalize_probabilities(probabilities: ModelResults) -> ModelResults:
     normalized_probs = {}
 
     for img, probs in probabilities.items():
-        normalized_probs[img] = probs / probs.sum(axis=1, keepdims=True)
+        probs = np.asarray(probs, dtype=float)
+        if probs.ndim != 2:
+            raise ValueError("prob_matrix deve ser 2D: (n_amostras, n_especialistas).")
+        # Normaliza para somar 1.0 por amostra (linha)
 
+        norm_probs = probs / probs.sum(axis=1, keepdims=True)
+
+        normalized_probs[img] = norm_probs
 
     return normalized_probs  # Shape: (n_probabilities, n_specialists)
 
 
-def shannon_entropy(probabilities: ModelResults) -> ModelResults:
+def shannon_entropy(probabilities: ModelResults, use_clip=False, eps=1e-12):
     """
     Calcula H(x_j) por amostra (linha) para uma matriz de probabilidades no formato (n_amostras, n_especialistas).
     H(x_j) = - sum_i P_i(x_j) * log_base(P_i(x_j)), com base = n_especialistas por padrão.
 
     Args:
-        prob_matrix: array (n_amostras, n_especialistas), cada linha soma ~1.0
+        probabilities: dicionário {img_id: [[specialist0_prob_segment_0, specialist0_prob_segment_1, ...], [specialist1_prob_segment_0, ...], ...]}
+        use_clip: Se True, usa np.clip para evitar log(0); se False, ignora zeros
+        eps: Valor pequeno para np.clip
 
     Returns:
-        entropias das imagens: array (n_amostras,) com H(x_j) para cada amostra (linha)
+        entropias: dicionário {img_id: array (n_amostras,) com H(x_j) para cada amostra (linha)}
     """
+
     entropies = {}
+
     for img, probs in probabilities.items():
         P = np.asarray(probs, dtype=float)
-        if P.ndim != 2:
-            raise ValueError("prob_matrix deve ser 2D: (n_amostras, n_especialistas).")
-        print(f"Shape: {P.shape}")
         _, base = P.shape
 
-        # log na base desejada
-        logP_base = np.log(P) / np.log(base)
+        if use_clip:
+            # versão "robusta", aproximação com eps
+            P_safe = np.clip(P, eps, 1.0)
+            logP_base = np.log(P_safe) / np.log(base)
+        else:
+            # versão "matemática pura", ignora zeros
+            logP_base = np.zeros_like(P)
+            mask = P > 0
+            logP_base[mask] = np.log(P[mask]) / np.log(base)
 
-        # soma sobre especialistas (colunas), resultando em entropia por amostra (linhas)
         H = -np.sum(P * logP_base, axis=1)
+        H = np.where(
+            np.isclose(H, 0), 0.0, H
+        )  # Remove -0.0 que apareceram em alguns casos
         entropies[img] = H
+        
 
     return entropies
 
@@ -207,15 +233,14 @@ def shannon_entropy_manual(probabilities: ModelResults) -> ModelResults:
         P = np.asarray(probs, dtype=float)
         if P.ndim != 2:
             raise ValueError("prob_matrix deve ser 2D: (n_amostras, n_especialistas).")
-        print(f"Shape: {P.shape}")
         _, base = P.shape
 
         H = []
 
         for probs in P:
             s = 0  # sum
-            for p_i in probs:
-                log_p_i = np.log(p_i) / np.log(base)
+            for p_i in probs:                
+                log_p_i = np.log(p_i) / np.log(base) if p_i > 0 else 0.0
                 x = p_i * log_p_i
                 s += x
             H.append(-s)
