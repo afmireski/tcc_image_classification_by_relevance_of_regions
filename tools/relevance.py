@@ -319,3 +319,23 @@ def calculate_ponderate_votes(probabilities: ModelResults, max_relevances: Model
         weighted_votes[img] = votes
 
     return weighted_votes
+
+def calculate_accumulated_votes(ponderated_votes: ModelResults) -> ModelResults:
+    """
+    Calcula votos acumulados somando o valor do voto de todos os segmentos de um especialista.
+    Voto acumulado = sum(P(x_j) * R_max(x_j)) ao longo dos especialistas.
+
+    Args:
+        ponderated_votes: dicionário {img_id: [[V_0(x_0), V_0(x_1), ...], [V_1(x_0), V_1(x_1), ...], ...]} com votos ponderados para cada especialista
+
+    Returns:
+        votos_acumulados: dicionário {img_id: [S_0, S_1, ..., S_n]} com votos acumulados para especialista
+    """
+    accumulated_votes = {}
+    for img, votes in ponderated_votes.items():
+        votes_specialists = np.asarray(votes, dtype=float)
+        votes_by_pieces = votes_specialists.T  # Transpõe para shape (n_amostras, n_especialistas)
+        accumulated = votes_by_pieces.sum(axis=1)  # Soma ao longo dos especialistas
+        accumulated_votes[img] = accumulated
+
+    return accumulated_votes
