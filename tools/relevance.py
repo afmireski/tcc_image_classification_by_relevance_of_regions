@@ -212,7 +212,6 @@ def shannon_entropy(probabilities: ModelResults, use_clip=False, eps=1e-12):
             np.isclose(H, 0), 0.0, H
         )  # Remove -0.0 que apareceram em alguns casos
         entropies[img] = H
-        
 
     return entropies
 
@@ -239,7 +238,7 @@ def shannon_entropy_manual(probabilities: ModelResults) -> ModelResults:
 
         for probs in P:
             s = 0  # sum
-            for p_i in probs:                
+            for p_i in probs:
                 log_p_i = np.log(p_i) / np.log(base) if p_i > 0 else 0.0
                 x = p_i * log_p_i
                 s += x
@@ -263,7 +262,9 @@ def calculate_relevance(entropies: ModelResults) -> ModelResults:
     return {img: 1.0 - H for img, H in entropies.items()}
 
 
-def calculate_max_relevance(relevances: ModelResults, probabilities: ModelResults) -> ModelResults:
+def calculate_max_relevance(
+    relevances: ModelResults, probabilities: ModelResults
+) -> ModelResults:
     """
     Calcula R_max(x_j) para as relevâncias R(x_j) de cada imagem, ponderando pela maior probabilidade entre especialistas.
     R_max(x_j) = R(x_j) * max(P(x_j)).
@@ -282,7 +283,7 @@ def calculate_max_relevance(relevances: ModelResults, probabilities: ModelResult
         # Converte para arrays numpy com dtype float para garantir compatibilidade
         R_array = np.asarray(R, dtype=float)
         P_array = np.asarray(P, dtype=float)
-        
+
         # Calcula R_max = R * max(P) ao longo do eixo dos especialistas
         max_probs = P_array.max(axis=1)
 
@@ -290,10 +291,12 @@ def calculate_max_relevance(relevances: ModelResults, probabilities: ModelResult
 
         result[img] = R_max
 
-
     return result
 
-def calculate_ponderate_votes(probabilities: ModelResults, max_relevances: ModelResults) -> ModelResults:
+
+def calculate_ponderate_votes(
+    probabilities: ModelResults, max_relevances: ModelResults
+) -> ModelResults:
     """
     Calcula votos ponderados para cada segmento de uma imagem.
     Voto ponderado = P(x_j) * R_max(x_j).
@@ -314,11 +317,14 @@ def calculate_ponderate_votes(probabilities: ModelResults, max_relevances: Model
         R_max_array = np.asarray(R_max, dtype=float)
 
         # Calcula votos ponderados
-        votes = P_array * R_max_array[:, np.newaxis]  # Broadcasting para multiplicar cada linha por R_max correspondente
+        votes = (
+            P_array * R_max_array[:, np.newaxis]
+        )  # Broadcasting para multiplicar cada linha por R_max correspondente
 
         weighted_votes[img] = votes
 
     return weighted_votes
+
 
 def calculate_accumulated_votes(ponderated_votes: ModelResults) -> ModelResults:
     """
@@ -334,11 +340,14 @@ def calculate_accumulated_votes(ponderated_votes: ModelResults) -> ModelResults:
     accumulated_votes = {}
     for img, votes in ponderated_votes.items():
         votes_specialists = np.asarray(votes, dtype=float)
-        votes_by_pieces = votes_specialists.T  # Transpõe para shape (n_amostras, n_especialistas)
+        votes_by_pieces = (
+            votes_specialists.T
+        )  # Transpõe para shape (n_amostras, n_especialistas)
         accumulated = votes_by_pieces.sum(axis=1)  # Soma ao longo dos especialistas
         accumulated_votes[img] = accumulated
 
     return accumulated_votes
+
 
 def predict_labels(accumulated_votes: ModelResults) -> ModelResults:
     """
@@ -354,7 +363,62 @@ def predict_labels(accumulated_votes: ModelResults) -> ModelResults:
     image_labels = {}
     for img, votes in accumulated_votes.items():
         votes_array = np.asarray(votes, dtype=float)
-        label = int(np.argmax(votes_array))  # Índice do especialista com maior voto acumulado
+        label = int(
+            np.argmax(votes_array)
+        )  # Índice do especialista com maior voto acumulado
         image_labels[img] = label
 
     return image_labels
+
+
+def relevance_technique(
+    base_model: BaseEstimator,
+    specialist_sets: PreparedSetsForClassification,
+    class_names: List[str],
+    model_name: str = "Specialist",
+    k_folds: int = 5,
+) -> mtp.ClassificationResults:
+    """
+    Aplica a técnica de relevância para classificar imagens usando um modelo base e conjuntos de especialistas.
+
+    Args:
+        base_model: modelo base a ser utilizado para classificação
+        specialist_sets: conjuntos de especialistas preparados para classificação
+        class_names: nomes das classes para a tarefa de classificação
+        model_name: nome do modelo a ser utilizado (padrão: "Specialist")
+        k_folds: número de dobras para validação cruzada (padrão: 5)
+
+    Returns:
+        resultados: resultados da classificação
+    """
+
+    probabilities = extract_specialists_probabilities(
+        base_model=base_model,
+        extract_func=extract_model_results,
+        specialist_sets=specialist_sets,
+        class_names=class_names,
+        model_name=model_name,
+        k_folds=k_folds,
+    )
+
+    entropies = shannon_entropy(probabilities)
+
+    relevances = calculate_relevance(entropies)
+
+    max_relevances = calculate_max_relevance(relevances, probabilities)
+
+    ponderated_votes = calculate_ponderate_votes(probabilities, max_relevances)
+
+    accumulated_votes = calculate_accumulated_votes(ponderated_votes)
+
+    image_labels = predict_labels(accumulated_votes)
+
+    return (
+        probabilities,
+        entropies,
+        relevances,
+        max_relevances,
+        ponderated_votes,
+        accumulated_votes,
+        image_labels,
+    )
