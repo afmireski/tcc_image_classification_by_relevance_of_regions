@@ -1,13 +1,28 @@
 import importlib
 import numpy as np
-from typing import List
+from typing import List, Tuple
 from sklearn.base import BaseEstimator, clone
+
+from sklearn.metrics import (
+    accuracy_score,
+    f1_score,
+    recall_score,
+    precision_score,
+)
 
 import mytypes as mtp
 
 importlib.reload(mtp)
 
-from mytypes import PreparedSetsForClassification, ClassificationDataset, ModelResults
+from mytypes import (
+    PreparedSetsForClassification,
+    ClassificationDataset,
+    ModelResults,
+    PredictResults,
+    ModelMetrics,
+    ModelLabels,
+    RelevanceResults
+)
 
 
 def extract_model_results(
@@ -177,7 +192,7 @@ def normalize_probabilities(probabilities: ModelResults) -> ModelResults:
     return normalized_probs  # Shape: (n_probabilities, n_specialists)
 
 
-def shannon_entropy(probabilities: ModelResults, use_clip=False, eps=1e-12):
+def shannon_entropy(probabilities: ModelResults, use_clip=False, eps=1e-12) -> ModelResults:
     """
     Calcula H(x_j) por amostra (linha) para uma matriz de probabilidades no formato (n_amostras, n_especialistas).
     H(x_j) = - sum_i P_i(x_j) * log_base(P_i(x_j)), com base = n_especialistas por padrão.
@@ -349,7 +364,7 @@ def calculate_accumulated_votes(ponderated_votes: ModelResults) -> ModelResults:
     return accumulated_votes
 
 
-def predict_labels(accumulated_votes: ModelResults) -> ModelResults:
+def predict_labels(accumulated_votes: ModelResults) -> PredictResults:
     """
     Determina o rótulo final de cada imagem com base nos votos acumulados.
     Rótulo = índice do especialista com maior voto acumulado.
@@ -371,13 +386,33 @@ def predict_labels(accumulated_votes: ModelResults) -> ModelResults:
     return image_labels
 
 
+def compute_metrics(
+    true_labels: PredictResults, predicted_labels: PredictResults
+) -> Tuple[ModelLabels, ModelMetrics]:
+    true_y = []
+    predicted_y = []
+
+    for img, true_label in true_labels.items():
+        pred_label = predicted_labels.get(img)
+        true_y.append(true_label)
+        predicted_y.append(pred_label)
+
+    accuracy = accuracy_score(true_y, predicted_y)
+    f1 = f1_score(true_y, predicted_y, average="macro")
+    recall = recall_score(true_y, predicted_y, average="macro")
+    precision = precision_score(true_y, predicted_y, average="macro")
+
+    return (true_y, predicted_y), (accuracy, f1, recall, precision)
+
+
 def relevance_technique(
     base_model: BaseEstimator,
     specialist_sets: PreparedSetsForClassification,
     class_names: List[str],
+    true_labels: PredictResults,
     model_name: str = "Specialist",
     k_folds: int = 5,
-) -> mtp.ClassificationResults:
+) -> RelevanceResults:
     """
     Aplica a técnica de relevância para classificar imagens usando um modelo base e conjuntos de especialistas.
 
@@ -411,7 +446,11 @@ def relevance_technique(
 
     accumulated_votes = calculate_accumulated_votes(ponderated_votes)
 
-    image_labels = predict_labels(accumulated_votes)
+    predicted_labels = predict_labels(accumulated_votes)
+
+    labels_list, model_metrics = compute_metrics(
+        true_labels, predicted_labels
+    )
 
     return (
         probabilities,
@@ -420,5 +459,7 @@ def relevance_technique(
         max_relevances,
         ponderated_votes,
         accumulated_votes,
-        image_labels,
+        predicted_labels,
+        labels_list,
+        model_metrics,
     )
