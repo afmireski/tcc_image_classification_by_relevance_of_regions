@@ -2,6 +2,8 @@
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, classification_report, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 
+from mytypes import ModelMetrics
+
 def show_predict_infos(y, predict, title="", cmap="Blues", show_plots=True):
     """
     Calcula e exibe métricas de avaliação de modelos de classificação.
@@ -62,3 +64,21 @@ def show_confusion_matrix(y, predict, title="", cmap="Blues"):
     plt.xlabel("Rótulo Previsto")
     plt.ylabel("Rótulo Real")
     plt.show()
+
+def show_metrics(metrics: ModelMetrics, title=""):
+    """
+    Exibe métricas de avaliação de modelos de classificação.
+    
+    Args:
+        metrics: Tupla com as métricas (accuracy, f1, recall, precision)
+        title: Título para exibição
+    """
+    accuracy, f1, recall, precision = metrics
+
+    print("-" * 40)
+    print(f"Métricas {title}:")
+    print(f"   📊 Acurácia: {accuracy*100:.4f}%")
+    print(f"   📊 F1: {f1*100:.4f}%")
+    print(f"   📊 Recall: {recall*100:.4f}%")
+    print(f"   📊 Precision: {precision*100:.4f}%")
+    print("-" * 40)
