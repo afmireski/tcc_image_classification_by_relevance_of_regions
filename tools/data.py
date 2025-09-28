@@ -18,19 +18,21 @@ from mytypes import (
 
 def merge_categories_dicts(
     categories: List[str], textures_dict: Dict[str, Dict[str, np.ndarray]]
-) -> Tuple[Dict[str, np.ndarray], List[str]]:
+) -> Tuple[Dict[str, np.ndarray], List[str], Dict[str, int]]:
     merged_dict = {}
     labels = []
-    for category in categories:
+    labels_dict = {}
+    for category_idx, category in enumerate(categories):
         category_dict = textures_dict[category]
         n_images = 0
         for img, features in category_dict.items():
             merged_dict[img] = features
             labels.append(category)
+            labels_dict[img] = category_idx
             n_images += 1
         print(f"Categoria: {category}, Número de elementos: {n_images}")
 
-    return (merged_dict, labels)
+    return (merged_dict, labels, labels_dict)
 
 
 def combine_sets(sets: List[Dict[str, np.ndarray]]) -> List[Dict[str, np.ndarray]]:
@@ -91,7 +93,7 @@ def generate_texture_dicts(
     lbp_dict: Dict[str, Dict[str, np.ndarray]],
     glcm_dict: Dict[str, Dict[str, np.ndarray]],
     lpq_dict: Dict[str, Dict[str, np.ndarray]],
-) -> Tuple[List[Dict[str, np.ndarray]], List[str]]:
+) -> Tuple[List[Dict[str, np.ndarray]], List[str], Dict[str, int]]:
     """
     Gera dicionários de texturas mesclados e suas combinações.
 
@@ -104,16 +106,16 @@ def generate_texture_dicts(
     Returns:
         Tupla com (lista_de_conjuntos_combinados, labels)
     """
-    (lbp_set, labels) = merge_categories_dicts(categories, lbp_dict)
-    (glcm_set, _) = merge_categories_dicts(categories, glcm_dict)
-    (lpq_set, _) = merge_categories_dicts(categories, lpq_dict)
+    (lbp_set, labels, true_images_labels) = merge_categories_dicts(categories, lbp_dict)
+    (glcm_set, _, _) = merge_categories_dicts(categories, glcm_dict)
+    (lpq_set, _, _) = merge_categories_dicts(categories, lpq_dict)
 
     # Combina todos os conjuntos
     sets = [lbp_set, glcm_set, lpq_set]
 
     combined_sets = combine_sets(sets)
 
-    return (combined_sets, labels)
+    return (combined_sets, labels, true_images_labels)
 
 
 def show_features_summary(
