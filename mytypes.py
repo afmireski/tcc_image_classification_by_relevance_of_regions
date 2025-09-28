@@ -6,6 +6,7 @@ SpecialistSet = Tuple[
     Tuple[Dict[str, np.ndarray], int], Tuple[Dict[str, np.ndarray], int], Dict[str, int]
 ]
 
+
 class FoldData(TypedDict):
     """Estrutura de dados para cada fold de validação cruzada"""
 
@@ -36,4 +37,22 @@ ClassificationDataset = List[ClassificationFold]
 
 PreparedSetsForClassification = List[ClassificationDataset]
 
-ModelResults = Dict[str, List[float]]  # {img_id: [prob_segment_0, prob_segment_1, ...]}
+ModelResults = Dict[str, np.ndarray]  # {img_id: [prob_segment_0, prob_segment_1, ...]}
+
+PredictResults = Dict[str, int]  # {model_name: predicted_class}
+
+ModelMetrics = Tuple[float, float, float, float]  # (accuracy, f1, recall, precision)
+
+ModelLabels = Tuple[List[int], List[int]]  # (true_labels, predicted_labels)
+
+RelevanceResults = Tuple[
+    ModelResults,
+    ModelResults,
+    ModelResults,
+    ModelResults,
+    ModelResults,
+    ModelResults,
+    PredictResults,
+    ModelLabels,
+    ModelMetrics,
+]
