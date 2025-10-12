@@ -662,6 +662,22 @@ def segment_images_by_category_auto(
 
     return segmented_by_category
 
+def merge_image_categories_dicts(images_by_categories: Dict[str, Dict[str, np.ndarray]:]):
+    """
+    Merges multiple category dictionaries into a single dictionary.
+
+    Args:
+        images_by_categories (Dict[str, Dict[str, np.ndarray]]): Dictionary with category names as keys
+                                                                 and dictionaries of images as values
+
+    Returns:
+        Dict[str, np.ndarray]: Merged dictionary with all images
+    """
+    merged_dict = {}
+    for category_dict in images_by_categories.values():
+        merged_dict.update(category_dict)
+    return merged_dict
+
 
 def visualize_image_segmentation_auto(
     image: np.ndarray,
