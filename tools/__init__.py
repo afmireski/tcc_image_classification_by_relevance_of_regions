@@ -23,6 +23,7 @@ from .image_tools import (
     reconstruct_image_from_regions,
     load_images_from_category,
     load_train_images_dict,
+    merge_image_categories_dicts
 )
 
 from .specialists import (
@@ -64,6 +65,9 @@ __all__ = [
     "visualize_image_segmentation_auto",
     "get_region_statistics",
     "reconstruct_image_from_regions",
+    "load_images_from_category",
+    "load_train_images_dict",
+    "merge_image_categories_dicts",
 
     "build_specialist_set",
     "build_specialist_set_for_many_classes",

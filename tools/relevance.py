@@ -285,8 +285,8 @@ def calculate_max_relevance(
     R_max(x_j) = R(x_j) * max(P(x_j)).
 
     Args:
-        relevances: dicionário {img_id: [R(x_0), R(x_1), ..., R(x_n)]} com R(x_j) para cada amostra
-        probabilities: dicionário {img_id: [[P_0(x_0), P_0(x_1), ...], [P_1(x_0), P_1(x_1), ...], ...]} com P(x_j) para cada amostra
+        relevances: dicionário {img_id: [R(x_0), R(x_1), ..., R(x_n)]} com R(x_j) para cada segmento
+        probabilities: dicionário {img_id: [[P_0(x_0), P_0(x_1), ...], [P_1(x_0), P_1(x_1), ...], ...]} com P(x_j) para cada segmento
 
     Returns:
         relevances: dicionário {img_id: [R_max(x_0), R_max(x_1), ..., R_max(x_n)]} com R_max(x_j) para cada amostra
