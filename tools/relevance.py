@@ -1,6 +1,10 @@
 import importlib
 import numpy as np
-from typing import List, Tuple
+import os
+import sys
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+from typing import List, Tuple, Dict
 from sklearn.base import BaseEstimator, clone
 
 from sklearn.metrics import (
@@ -10,9 +14,16 @@ from sklearn.metrics import (
     precision_score,
 )
 
+# Import image tools functions
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+import tools.image_tools as tit
 import mytypes as mtp
 
+importlib.reload(tit)
 importlib.reload(mtp)
+
+from tools.image_tools import reconstruct_image_from_regions
 
 from mytypes import (
     PreparedSetsForClassification,
@@ -403,6 +414,339 @@ def compute_metrics(
     precision = precision_score(true_y, predicted_y, average="macro")
 
     return (true_y, predicted_y), (accuracy, f1, recall, precision)
+
+
+def generate_relevance_heatmaps(
+    max_relevances: ModelResults,
+    all_images_segmented: Dict[str, np.ndarray],
+    model_name: str,
+    colormap: str = "viridis",
+    overlay_alpha: float = 0.5,
+    save_grid_lines: bool = True,
+    results_dir: str = "results"
+) -> None:
+    """
+    Gera mapas de calor (heatmaps) a partir das relevâncias máximas dos segmentos de imagem.
+    
+    Args:
+        max_relevances: Dicionário {img_id: [R_max_0, R_max_1, ...]} com relevâncias [0,1] por segmento
+        all_images_segmented: Dicionário {img_id: regions_matrix} com imagens segmentadas
+        model_name: Nome do modelo para organizar os resultados (ex: "SVM", "RandomForest")
+        colormap: Nome do colormap matplotlib para cores do heatmap (padrão: "viridis")
+        overlay_alpha: Transparência da sobreposição do heatmap (0.0=transparente, 1.0=opaco)
+        save_grid_lines: Se True, desenha linhas de grade mostrando os limites dos segmentos
+        results_dir: Diretório base para salvar os resultados
+    
+    Returns:
+        None: Salva as imagens em /results/<model_name>/overlays/
+    """
+    
+    print(f"🎨 Gerando heatmaps de relevância para modelo: {model_name}")
+    print(f"   📊 Colormap: {colormap}")
+    print(f"   🎭 Transparência overlay: {overlay_alpha}")
+    print(f"   🔲 Linhas de grade: {save_grid_lines}")
+    print("-" * 60)
+    
+    # Verifica se há correspondência entre relevâncias e imagens segmentadas
+    images_with_relevance = set(max_relevances.keys())
+    images_segmented = set(all_images_segmented.keys())
+    
+    common_images = images_with_relevance.intersection(images_segmented)
+    
+    if len(common_images) == 0:
+        print("❌ Erro: Nenhuma imagem comum encontrada entre relevâncias e segmentações")
+        return
+        
+    print(f"   ✅ {len(common_images)} imagens serão processadas")
+    
+    # Processa cada imagem
+    processed_count = 0
+    for img_id in sorted(common_images):
+        try:
+            # Obtém os dados da imagem
+            relevance_values = np.asarray(max_relevances[img_id], dtype=float)
+            regions_matrix = all_images_segmented[img_id]
+            
+            # Converte relevâncias 1D para matriz 2D que corresponde à grade de segmentação
+            grid_shape = regions_matrix.shape
+            total_segments = grid_shape[0] * grid_shape[1]
+            
+            # Verifica se o número de relevâncias corresponde ao número de segmentos
+            if len(relevance_values) != total_segments:
+                print(f"   ⚠️  Aviso {img_id}: {len(relevance_values)} relevâncias vs {total_segments} segmentos - ajustando...")
+                # Ajusta o array se necessário (preenche com zeros ou trunca)
+                if len(relevance_values) < total_segments:
+                    # Preenche com zeros se faltam valores
+                    padded_values = np.zeros(total_segments)
+                    padded_values[:len(relevance_values)] = relevance_values
+                    relevance_values = padded_values
+                else:
+                    # Trunca se há valores demais
+                    relevance_values = relevance_values[:total_segments]
+            
+            # Reshape das relevâncias para a forma da grade (rows, cols)
+            relevance_matrix = relevance_values.reshape(grid_shape)
+            
+            print(f"   🔄 Processando {img_id}: grade {grid_shape[0]}x{grid_shape[1]} = {total_segments} segmentos")
+            print(f"       Relevâncias: min={relevance_values.min():.3f}, max={relevance_values.max():.3f}")
+            
+            # STEP 2: Gerar heatmap colorido usando o colormap
+            heatmap_image = create_segment_heatmap(
+                regions_matrix, relevance_matrix, colormap
+            )
+            
+            # STEP 3: Adicionar linhas de grade se solicitado
+            if save_grid_lines:
+                heatmap_with_grid = add_grid_lines_to_heatmap(
+                    heatmap_image, regions_matrix.shape
+                )
+                print(f"       🔲 Linhas de grade adicionadas")
+            else:
+                heatmap_with_grid = heatmap_image
+            
+            # STEP 4: Criar overlay com a imagem original
+            original_image = reconstruct_original_image(regions_matrix)
+            overlay_image = create_heatmap_overlay(
+                original_image, heatmap_with_grid, overlay_alpha
+            )
+            
+            # STEP 5: Salvar a imagem
+            save_success = save_overlay_image(
+                overlay_image, img_id, model_name, results_dir
+            )
+            
+            if save_success:
+                print(f"       💾 Salvo com sucesso")
+            else:
+                print(f"       ❌ Erro ao salvar")
+                
+            print(f"       🎨 Heatmap final: {overlay_image.shape} (altura, largura, RGB)")
+            print(f"       🎭 Overlay criado com transparência: {overlay_alpha}")
+            processed_count += 1
+            
+        except Exception as e:
+            print(f"   ❌ Erro ao processar {img_id}: {str(e)}")
+            continue
+    
+    print(f"\n🎉 CONCLUÍDO: {processed_count} heatmaps de relevância gerados!")
+    print(f"   📁 Salvos em: {results_dir}/{model_name}/overlays/")
+    print(f"   🎨 Colormap: {colormap}")
+    print(f"   🎭 Transparência: {overlay_alpha}")
+    print(f"   🔲 Linhas de grade: {'Ativadas' if save_grid_lines else 'Desativadas'}")
+    print("=" * 60)
+
+
+def save_overlay_image(
+    overlay_image: np.ndarray, 
+    img_id: str, 
+    model_name: str, 
+    results_dir: str = "results"
+) -> bool:
+    """
+    Salva a imagem overlay como arquivo JPG no diretório organizado.
+    
+    Args:
+        overlay_image: Imagem overlay RGB com valores [0,1]
+        img_id: Identificador da imagem (ex: "cat1", "dog5")
+        model_name: Nome do modelo (ex: "SVM", "RandomForest")
+        results_dir: Diretório base para salvar
+        
+    Returns:
+        bool: True se salvou com sucesso, False caso contrário
+    """
+    try:
+        # Cria estrutura de diretórios
+        output_dir = os.path.join(results_dir, model_name)
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # Define o nome do arquivo
+        filename = f"{img_id}_relevance_overlay.jpg"
+        filepath = os.path.join(output_dir, filename)
+        
+        # Converte para formato de imagem (0-255, uint8)
+        image_uint8 = (overlay_image * 255).astype(np.uint8)
+        
+        # Salva usando matplotlib sem mostrar a imagem
+        plt.figure(figsize=(10, 10), dpi=100)
+        plt.imshow(image_uint8)
+        plt.axis('off')
+        plt.tight_layout()
+        plt.savefig(filepath, format='jpg', bbox_inches='tight', 
+                   pad_inches=0, dpi=150)
+        plt.close()  # Importante: fecha a figura para não mostrar
+        
+        return True
+        
+    except Exception as e:
+        print(f"       ⚠️  Erro ao salvar {img_id}: {str(e)}")
+        return False
+
+
+def reconstruct_original_image(regions_matrix: np.ndarray) -> np.ndarray:
+    """
+    Reconstrói a imagem original em escala de cinza a partir da matriz de regiões.
+    
+    Args:
+        regions_matrix: Matriz de regiões segmentadas (rows, cols) onde cada célula contém pixels de um segmento
+        
+    Returns:
+        np.ndarray: Imagem original reconstruída em escala de cinza
+    """
+    return reconstruct_image_from_regions(regions_matrix)
+
+
+def create_heatmap_overlay(
+    original_image: np.ndarray, 
+    heatmap_rgb: np.ndarray, 
+    alpha: float = 0.5
+) -> np.ndarray:
+    """
+    Cria um overlay combinando a imagem original em escala de cinza com o heatmap colorido.
+    
+    Args:
+        original_image: Imagem original em escala de cinza (altura, largura)
+        heatmap_rgb: Heatmap colorido RGB (altura, largura, 3) com valores [0,1]
+        alpha: Transparência do heatmap (0.0=invisível, 1.0=opaco, 0.5=semi-transparente)
+        
+    Returns:
+        np.ndarray: Imagem overlay RGB com shape (altura, largura, 3) com valores [0,1]
+    """
+    # Verifica se as dimensões são compatíveis
+    if original_image.shape[:2] != heatmap_rgb.shape[:2]:
+        raise ValueError(
+            f"Dimensões incompatíveis: original {original_image.shape[:2]} vs heatmap {heatmap_rgb.shape[:2]}"
+        )
+    
+    # Converte a imagem original para RGB (3 canais) normalizando para [0,1]
+    if len(original_image.shape) == 2:
+        # Escala de cinza para RGB
+        original_rgb = np.stack([original_image, original_image, original_image], axis=2)
+    else:
+        original_rgb = original_image.copy()
+    
+    # Normaliza a imagem original para [0,1] se necessário
+    if original_rgb.max() > 1.0:
+        original_rgb = original_rgb.astype(np.float32) / 255.0
+    
+    # Garante que o heatmap está em [0,1]
+    heatmap_normalized = np.clip(heatmap_rgb, 0.0, 1.0)
+    
+    # Cria o overlay usando blend linear:
+    # overlay = (1 - alpha) * original + alpha * heatmap
+    overlay = (1.0 - alpha) * original_rgb + alpha * heatmap_normalized
+    
+    # Garante que os valores finais estão em [0,1]
+    overlay = np.clip(overlay, 0.0, 1.0)
+    
+    return overlay
+
+
+def add_grid_lines_to_heatmap(
+    heatmap_rgb: np.ndarray, 
+    grid_shape: tuple, 
+    line_color: tuple = (0.0, 0.0, 0.0),
+    line_width: int = 2
+) -> np.ndarray:
+    """
+    Adiciona linhas de grade ao heatmap para mostrar os limites dos segmentos.
+    
+    Args:
+        heatmap_rgb: Imagem heatmap RGB com shape (altura, largura, 3)
+        grid_shape: Forma da grade de segmentação (rows, cols)
+        line_color: Cor das linhas de grade em RGB [0,1] (padrão: preto)
+        line_width: Largura das linhas em pixels (padrão: 2)
+        
+    Returns:
+        np.ndarray: Heatmap com linhas de grade adicionadas
+    """
+    # Cria uma cópia para não modificar o original
+    heatmap_with_grid = heatmap_rgb.copy()
+    
+    height, width, _ = heatmap_rgb.shape
+    rows, cols = grid_shape
+    
+    # Calcula as dimensões de cada segmento
+    segment_height = height // rows
+    segment_width = width // cols
+    
+    # Desenha linhas horizontais (separando as linhas da grade)
+    for row in range(1, rows):  # Não desenha na primeira linha (topo)
+        y_position = row * segment_height
+        # Desenha linha horizontal com a largura especificada
+        for offset in range(line_width):
+            if y_position + offset < height:
+                heatmap_with_grid[y_position + offset, :] = line_color
+    
+    # Desenha linhas verticais (separando as colunas da grade)
+    for col in range(1, cols):  # Não desenha na primeira coluna (esquerda)
+        x_position = col * segment_width
+        # Desenha linha vertical com a largura especificada
+        for offset in range(line_width):
+            if x_position + offset < width:
+                heatmap_with_grid[:, x_position + offset] = line_color
+    
+    return heatmap_with_grid
+
+
+def create_segment_heatmap(
+    regions_matrix: np.ndarray, 
+    relevance_matrix: np.ndarray, 
+    colormap_name: str = "viridis"
+) -> np.ndarray:
+    """
+    Cria um heatmap colorido a partir das relevâncias dos segmentos.
+    
+    Args:
+        regions_matrix: Matriz de regiões segmentadas (rows, cols) onde cada célula contém pixels de um segmento
+        relevance_matrix: Matriz de relevâncias (rows, cols) com valores [0,1] para cada segmento
+        colormap_name: Nome do colormap matplotlib (ex: "viridis", "hot", "plasma")
+        
+    Returns:
+        np.ndarray: Imagem heatmap RGB com shape (altura, largura, 3)
+    """
+    # Obtém o colormap
+    colormap = cm.get_cmap(colormap_name)
+    
+    # Determina as dimensões da imagem final usando reconstrução real
+    # Isso garante que o heatmap tenha exatamente as mesmas dimensões da imagem original
+    reconstructed_temp = reconstruct_image_from_regions(regions_matrix)
+    total_height, total_width = reconstructed_temp.shape
+    
+    # Determina as dimensões da grade
+    rows, cols = regions_matrix.shape
+    
+    # Cria a imagem heatmap RGB
+    heatmap_rgb = np.zeros((total_height, total_width, 3), dtype=np.float32)
+    
+    # Preenche cada segmento com sua cor correspondente à relevância
+    # Usa a mesma lógica de posicionamento da reconstrução
+    current_row = 0
+    for row_idx in range(rows):
+        current_col = 0
+        row_height = 0
+        
+        for col_idx in range(cols):
+            region = regions_matrix[row_idx, col_idx]
+            if region is not None and hasattr(region, 'shape'):
+                region_height, region_width = region.shape
+                
+                # Obtém a relevância deste segmento (valor já está em [0,1])
+                relevance_value = relevance_matrix[row_idx, col_idx]
+                
+                # Converte relevância para cor RGB usando o colormap
+                color_rgba = colormap(relevance_value)  # Retorna (R, G, B, A)
+                color_rgb = color_rgba[:3]  # Pega apenas RGB, ignora alpha
+                
+                # Aplica a cor uniformemente a todo o segmento
+                heatmap_rgb[current_row:current_row + region_height, 
+                           current_col:current_col + region_width] = color_rgb
+                
+                current_col += region_width
+                row_height = max(row_height, region_height)
+        
+        current_row += row_height
+    
+    return heatmap_rgb
 
 
 def relevance_technique(
