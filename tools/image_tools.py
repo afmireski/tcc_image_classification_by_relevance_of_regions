@@ -340,12 +340,13 @@ def reconstruct_image_from_regions(regions_matrix: np.ndarray) -> np.ndarray:
     if regions_matrix.shape == (0,) or len(regions_matrix.shape) == 0:
         raise ValueError("No regions provided for reconstruction")
 
-    segmentation_factor = regions_matrix.shape[0]
+    rows, cols = regions_matrix.shape
 
     # Get the first non-None region to determine data type
+    print("Reconstructing image from regions...")
     first_region = None
-    for row_idx in range(segmentation_factor):
-        for col_idx in range(segmentation_factor):
+    for row_idx in range(rows):
+        for col_idx in range(cols):
             region = regions_matrix[row_idx, col_idx]
             if region is not None and hasattr(region, "shape"):
                 first_region = region
@@ -356,25 +357,45 @@ def reconstruct_image_from_regions(regions_matrix: np.ndarray) -> np.ndarray:
     if first_region is None:
         raise ValueError("All regions are None")
 
-    # Calculate total image dimensions
-    region_height, region_width = first_region.shape
-    total_height = region_height * segmentation_factor
-    total_width = region_width * segmentation_factor
+    # Calculate total image dimensions by examining actual region sizes
+    # This handles dynamic segmentation where edge regions may have different sizes
+    total_height = 0
+    total_width = 0
+    
+    # Calculate height by checking the first column
+    for row_idx in range(rows):
+        region = regions_matrix[row_idx, 0]
+        if region is not None and hasattr(region, "shape"):
+            total_height += region.shape[0]
+    
+    # Calculate width by checking the first row
+    for col_idx in range(cols):
+        region = regions_matrix[0, col_idx]
+        if region is not None and hasattr(region, "shape"):
+            total_width += region.shape[1]
 
     # Create the reconstructed image
     reconstructed = np.zeros((total_height, total_width), dtype=first_region.dtype)
 
-    # Fill in each region
-    for row_idx in range(segmentation_factor):
-        for col_idx in range(segmentation_factor):
+    # Fill in each region using actual positions
+    current_row = 0
+    for row_idx in range(rows):
+        current_col = 0
+        row_height = 0
+        
+        for col_idx in range(cols):
             region = regions_matrix[row_idx, col_idx]
             if region is not None and hasattr(region, "shape"):
-                start_row = row_idx * region_height
-                end_row = start_row + region.shape[0]
-                start_col = col_idx * region_width
-                end_col = start_col + region.shape[1]
-
-                reconstructed[start_row:end_row, start_col:end_col] = region
+                region_height, region_width = region.shape
+                
+                # Place the region at its correct position
+                reconstructed[current_row:current_row + region_height, 
+                            current_col:current_col + region_width] = region
+                
+                current_col += region_width
+                row_height = max(row_height, region_height)
+        
+        current_row += row_height
 
     return reconstructed
 
