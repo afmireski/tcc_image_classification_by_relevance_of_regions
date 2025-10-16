@@ -556,7 +556,7 @@ def save_overlay_image(
     """
     try:
         # Cria estrutura de diretórios
-        output_dir = os.path.join(results_dir, model_name)
+        output_dir = os.path.join(results_dir, 'heatmaps', model_name)
         os.makedirs(output_dir, exist_ok=True)
         
         # Define o nome do arquivo
@@ -747,6 +747,176 @@ def create_segment_heatmap(
         current_row += row_height
     
     return heatmap_rgb
+
+
+def export_relevance_results_to_csv(
+    relevance_results: RelevanceResults,
+    true_labels: PredictResults,
+    model_name: str,
+    output_dir: str = "results",
+    filename: str = None
+) -> str:
+    """
+    Exporta os resultados da técnica de relevância para um arquivo CSV.
+    
+    Args:
+        relevance_results: Resultado da função relevance_technique
+        true_labels: Dicionário com labels reais {img_id: label}
+        model_name: Nome do modelo (ex: "KNN_LBP", "SVM_GLCM")
+        output_dir: Diretório de saída (padrão: "results")
+        filename: Nome do arquivo CSV (padrão: auto-gerado a partir do model_name)
+        
+    Returns:
+        str: Caminho completo do arquivo CSV gerado
+        
+    Example:
+        >>> # Após executar relevance_technique
+        >>> csv_path = export_relevance_results_to_csv(
+        ...     relevance_results=relevance_results_knn_lbp,
+        ...     true_labels=true_images_labels,
+        ...     model_name="KNN_LBP"
+        ... )
+        >>> print(f"CSV salvo em: {csv_path}")
+    """
+    import csv
+    import json
+    import os
+    
+    # Desempacota os resultados
+    (probabilities, entropies, relevances, max_relevances, 
+     ponderated_votes, accumulated_votes, predicted_labels, 
+     labels_list, model_metrics) = relevance_results
+    
+    # Extrai as métricas globais
+    accuracy_global, f1_global, recall_global, precision_global = model_metrics
+    
+    # Cria o diretório de saída
+    csv_dir = os.path.join(output_dir, "csv_exports")
+    os.makedirs(csv_dir, exist_ok=True)
+    
+    # Define o nome do arquivo se não fornecido
+    if filename is None:
+        filename = f"{model_name.lower().replace('-', '_').replace(' ', '_')}_results.csv"
+    
+    filepath = os.path.join(csv_dir, filename)
+    
+    print(f"📊 Exportando resultados para CSV: {model_name}")
+    print(f"   📁 Arquivo: {filepath}")
+    print(f"   🎯 Imagens: {len(predicted_labels)} amostras")
+    print("-" * 50)
+    
+    # Função auxiliar para serializar arrays em JSON com precisão controlada
+    def serialize_array(arr):
+        if arr is None:
+            return "[]"
+        # Converte para lista e aplica precisão de 4 casas decimais
+        arr_list = np.asarray(arr).tolist()
+        # Recursivamente aplica round para elementos aninhados
+        def round_nested(obj):
+            if isinstance(obj, list):
+                return [round_nested(item) for item in obj]
+            elif isinstance(obj, float):
+                return round(obj, 4)
+            else:
+                return obj
+        
+        rounded_arr = round_nested(arr_list)
+        return json.dumps(rounded_arr)
+    
+    # Escreve o arquivo CSV
+    with open(filepath, 'w', newline='', encoding='utf-8') as csvfile:
+        fieldnames = [
+            'nome_imagem', 'label_predito', 'label_real',
+            'acuracia_global', 'f1_global', 'recall_global', 'precision_global',
+            'probabilidades', 'entropias', 'relevancias', 'max_relevancia', 'votos_ponderados'
+        ]
+        
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        # Escreve uma linha para cada imagem
+        processed_count = 0
+        for img_id in sorted(predicted_labels.keys()):
+            try:
+                row = {
+                    'nome_imagem': img_id,
+                    'label_predito': predicted_labels[img_id],
+                    'label_real': true_labels.get(img_id, -1),  # -1 se não encontrar
+                    'acuracia_global': round(accuracy_global, 4),
+                    'f1_global': round(f1_global, 4),
+                    'recall_global': round(recall_global, 4),
+                    'precision_global': round(precision_global, 4),
+                    'probabilidades': serialize_array(probabilities.get(img_id)),
+                    'entropias': serialize_array(entropies.get(img_id)),
+                    'relevancias': serialize_array(relevances.get(img_id)),
+                    'max_relevancia': serialize_array(max_relevances.get(img_id)),
+                    'votos_ponderados': serialize_array(ponderated_votes.get(img_id))
+                }
+                
+                writer.writerow(row)
+                processed_count += 1
+                
+            except Exception as e:
+                print(f"   ⚠️  Erro ao processar {img_id}: {str(e)}")
+                continue
+    
+    print(f"   ✅ {processed_count} linhas escritas com sucesso")
+    print(f"   💾 Arquivo salvo: {filepath}")
+    print("=" * 50)
+    
+    return filepath
+
+
+def export_all_relevance_results_to_csv(
+    results_dict: Dict[str, Tuple[RelevanceResults, PredictResults]],
+    output_dir: str = "results"
+) -> List[str]:
+    """
+    Exporta múltiplos resultados de relevância para arquivos CSV separados.
+    
+    Args:
+        results_dict: Dicionário {model_name: (relevance_results, true_labels)}
+        output_dir: Diretório de saída
+        
+    Returns:
+        List[str]: Lista de caminhos dos arquivos CSV gerados
+        
+    Example:
+        >>> results = {
+        ...     "KNN_LBP": (relevance_results_knn_lbp, true_images_labels),
+        ...     "KNN_GLCM": (relevance_results_knn_glcm, true_images_labels),
+        ...     "SVM_LBP": (relevance_results_svm_lbp, true_images_labels),
+        ... }
+        >>> csv_files = export_all_relevance_results_to_csv(results)
+        >>> print(f"Gerados {len(csv_files)} arquivos CSV")
+    """
+    generated_files = []
+    
+    print(f"🚀 Exportando {len(results_dict)} modelos para CSV")
+    print("=" * 60)
+    
+    for model_name, (relevance_results, true_labels) in results_dict.items():
+        try:
+            csv_path = export_relevance_results_to_csv(
+                relevance_results=relevance_results,
+                true_labels=true_labels,
+                model_name=model_name,
+                output_dir=output_dir
+            )
+            generated_files.append(csv_path)
+            print()
+            
+        except Exception as e:
+            print(f"❌ Erro ao exportar {model_name}: {str(e)}")
+            print()
+            continue
+    
+    print("🎉 Exportação concluída!")
+    print(f"   ✅ {len(generated_files)} arquivos CSV gerados")
+    print(f"   📁 Diretório: {output_dir}/csv_exports/")
+    print("=" * 60)
+    
+    return generated_files
 
 
 def relevance_technique(
