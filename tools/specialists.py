@@ -10,6 +10,7 @@ def build_specialist_set(
     features_set: Dict[str, np.ndarray],
     labels_set: List[str],
     specialist_class: str,
+    verbose: bool = False,
 ) -> SpecialistSet:
     class_features = {}
     true_map = {}
@@ -26,9 +27,10 @@ def build_specialist_set(
     # Verifica se alguma lista está vazia e trata adequadamente
     len_class_features = len(class_features.values())
     len_no_class_features = len(no_class_features.values())
-    print(
-        f"Class {specialist_class}: {len_class_features} positive samples, {len_no_class_features} negative samples"
-    )
+    if verbose:
+        print(
+            f"Class {specialist_class}: {len_class_features} positive samples, {len_no_class_features} negative samples"
+        )
     if len_class_features == 0 or len_no_class_features == 0:
         raise ValueError(
             f"Pelo menos um exemplar positivo e negativo para a classe {specialist_class} são necessários"
@@ -36,13 +38,14 @@ def build_specialist_set(
 
     class_features_shape = next(iter(class_features.values())).shape
     no_class_features_shape = next(iter(no_class_features.values())).shape
-    print("=" * 15)
-    print(f"Specialist summary for class {specialist_class}")
-    print(f"Class features shape: {class_features_shape}")
-    print(f"Class labels shape: {len_class_features}")
-    print(f"No class features shape: {no_class_features_shape}")
-    print(f"No class labels shape: {len_no_class_features}")
-    print("=" * 15)
+    if verbose:
+        print("=" * 15)
+        print(f"Specialist summary for class {specialist_class}")
+        print(f"Class features shape: {class_features_shape}")
+        print(f"Class labels shape: {len_class_features}")
+        print(f"No class features shape: {no_class_features_shape}")
+        print(f"No class labels shape: {len_no_class_features}")
+        print("=" * 15)
 
     return (
         (class_features, len_class_features),
@@ -55,6 +58,7 @@ def build_specialist_set_for_many_classes(
     features_set: Dict[str, np.ndarray],
     labels_set: List[str],
     specialist_classes: List[str],
+    verbose: bool = False,
 ) -> List[SpecialistSet]:
     """
     Constrói conjuntos de especialistas para múltiplas classes.
@@ -62,7 +66,7 @@ def build_specialist_set_for_many_classes(
     specialist_sets = []
     for specialist_class in specialist_classes:
         specialist_set = build_specialist_set(
-            features_set, labels_set, specialist_class
+            features_set, labels_set, specialist_class, verbose=verbose
         )
         specialist_sets.append(specialist_set)
 
