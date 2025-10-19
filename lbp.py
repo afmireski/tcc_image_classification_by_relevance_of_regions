@@ -139,6 +139,7 @@ def compute_lbp_for_segmented_image(
                 try:
                     lbp = local_binary_pattern(region, n_points, radius, method)
                     histo = build_histogram_from_lbp(lbp, n_points)
+
                     features_list.append(histo)
                 except Exception as e:
                     print(f"Warning: Failed to compute LBP for {image_name} region ({row},{col}): {e}")
@@ -148,7 +149,25 @@ def compute_lbp_for_segmented_image(
     
     # Convert to numpy array
     if features_list:
-        features_array = np.array(features_list)
+        # Check if all histograms have the same shape
+        if len(features_list) > 1:
+            shapes = [len(hist) for hist in features_list]
+            max_shape = max(shapes)
+            
+            # Pad histograms to have the same size
+            normalized_features = []
+            for hist in features_list:
+                if len(hist) < max_shape:
+                    # Pad with zeros
+                    padded_hist = np.zeros(max_shape)
+                    padded_hist[:len(hist)] = hist
+                    normalized_features.append(padded_hist)
+                else:
+                    normalized_features.append(hist)
+            
+            features_array = np.array(normalized_features)
+        else:
+            features_array = np.array(features_list)
     else:
         # Fallback for completely empty image
         n_bins = 2**n_points if method == "uniform" else n_points + 2
