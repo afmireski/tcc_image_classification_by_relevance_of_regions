@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 
 # Import the image segmentation tools
 import warnings
-from typing import Dict, List
 
 from tools.image_tools import (
     segment_images_by_category_auto,
@@ -54,7 +53,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="joblib")
 warnings.filterwarnings("ignore", message=".*resource_tracker.*")
 warnings.filterwarnings("ignore", message=".*Cannot register.*")
 
-images_directory = "./images/pieces"
+images_directory = "./images/experiment"
 image_categories = ["dogs", "cats", "lions", "horses"]
 n_examples = 4
 NEEDS_RESIZE = int(os.getenv("NEEDS_RESIZE", True))
