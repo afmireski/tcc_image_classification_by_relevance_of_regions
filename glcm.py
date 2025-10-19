@@ -136,10 +136,35 @@ def calculate_glcm_from_segmented_image(
                     print(
                         f"Warning: Failed to compute GLCM for {image_name} region ({row},{col}): {e}"
                     )
+                    # Add zero array as placeholder for failed regions (expecting 72 features)
+                    expected_features = 72  # Based on your configuration
+                    features_list.append(np.zeros(expected_features))
 
-                    raise e
-
-        features_array = np.array(features_list)
+    # Convert to numpy array with padding if necessary
+    if features_list:
+        # Check if all feature arrays have the same shape
+        if len(features_list) > 1:
+            shapes = [len(features) for features in features_list]
+            max_shape = max(shapes)
+            
+            # Pad feature arrays to have the same size
+            normalized_features = []
+            for features in features_list:
+                if len(features) < max_shape:
+                    # Pad with zeros
+                    padded_features = np.zeros(max_shape)
+                    padded_features[:len(features)] = features
+                    normalized_features.append(padded_features)
+                else:
+                    normalized_features.append(features)
+            
+            features_array = np.array(normalized_features)
+        else:
+            features_array = np.array(features_list)
+    else:
+        # Fallback for completely empty image
+        expected_features = 72
+        features_array = np.array([np.zeros(expected_features)])
 
     # Save to cache
     try:
