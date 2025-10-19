@@ -423,7 +423,8 @@ def generate_relevance_heatmaps(
     colormap: str = "viridis",
     overlay_alpha: float = 0.5,
     save_grid_lines: bool = True,
-    results_dir: str = "results"
+    results_dir: str = "results",
+    verbose: bool = False
 ) -> None:
     """
     Gera mapas de calor (heatmaps) a partir das relevâncias máximas dos segmentos de imagem.
@@ -436,16 +437,17 @@ def generate_relevance_heatmaps(
         overlay_alpha: Transparência da sobreposição do heatmap (0.0=transparente, 1.0=opaco)
         save_grid_lines: Se True, desenha linhas de grade mostrando os limites dos segmentos
         results_dir: Diretório base para salvar os resultados
+        verbose: Se True, exibe mensagens de log; caso contrário, suprime mensagens não essenciais
     
     Returns:
         None: Salva as imagens em /results/<model_name>/overlays/
     """
-    
-    print(f"🎨 Gerando heatmaps de relevância para modelo: {model_name}")
-    print(f"   📊 Colormap: {colormap}")
-    print(f"   🎭 Transparência overlay: {overlay_alpha}")
-    print(f"   🔲 Linhas de grade: {save_grid_lines}")
-    print("-" * 60)
+    if verbose:
+        print(f"🎨 Gerando heatmaps de relevância para modelo: {model_name}")
+        print(f"   📊 Colormap: {colormap}")
+        print(f"   🎭 Transparência overlay: {overlay_alpha}")
+        print(f"   🔲 Linhas de grade: {save_grid_lines}")
+        print("-" * 60)
     
     # Verifica se há correspondência entre relevâncias e imagens segmentadas
     images_with_relevance = set(max_relevances.keys())
@@ -457,7 +459,8 @@ def generate_relevance_heatmaps(
         print("❌ Erro: Nenhuma imagem comum encontrada entre relevâncias e segmentações")
         return
         
-    print(f"   ✅ {len(common_images)} imagens serão processadas")
+    if verbose:
+        print(f"   ✅ {len(common_images)} imagens serão processadas")
     
     # Processa cada imagem
     processed_count = 0
@@ -473,7 +476,8 @@ def generate_relevance_heatmaps(
             
             # Verifica se o número de relevâncias corresponde ao número de segmentos
             if len(relevance_values) != total_segments:
-                print(f"   ⚠️  Aviso {img_id}: {len(relevance_values)} relevâncias vs {total_segments} segmentos - ajustando...")
+                if verbose:
+                    print(f"   ⚠️  Aviso {img_id}: {len(relevance_values)} relevâncias vs {total_segments} segmentos - ajustando...")
                 # Ajusta o array se necessário (preenche com zeros ou trunca)
                 if len(relevance_values) < total_segments:
                     # Preenche com zeros se faltam valores
@@ -487,8 +491,9 @@ def generate_relevance_heatmaps(
             # Reshape das relevâncias para a forma da grade (rows, cols)
             relevance_matrix = relevance_values.reshape(grid_shape)
             
-            print(f"   🔄 Processando {img_id}: grade {grid_shape[0]}x{grid_shape[1]} = {total_segments} segmentos")
-            print(f"       Relevâncias: min={relevance_values.min():.3f}, max={relevance_values.max():.3f}")
+            if verbose:
+                print(f"   🔄 Processando {img_id}: grade {grid_shape[0]}x{grid_shape[1]} = {total_segments} segmentos")
+                print(f"       Relevâncias: min={relevance_values.min():.3f}, max={relevance_values.max():.3f}")
             
             # STEP 2: Gerar heatmap colorido usando o colormap
             heatmap_image = create_segment_heatmap(
@@ -500,7 +505,8 @@ def generate_relevance_heatmaps(
                 heatmap_with_grid = add_grid_lines_to_heatmap(
                     heatmap_image, regions_matrix.shape
                 )
-                print(f"       🔲 Linhas de grade adicionadas")
+                if verbose:
+                    print("       🔲 Linhas de grade adicionadas")
             else:
                 heatmap_with_grid = heatmap_image
             
@@ -516,24 +522,27 @@ def generate_relevance_heatmaps(
             )
             
             if save_success:
-                print(f"       💾 Salvo com sucesso")
+                if verbose:
+                    print("       💾 Salvo com sucesso")
             else:
-                print(f"       ❌ Erro ao salvar")
+                print("       ❌ Erro ao salvar")
                 
-            print(f"       🎨 Heatmap final: {overlay_image.shape} (altura, largura, RGB)")
-            print(f"       🎭 Overlay criado com transparência: {overlay_alpha}")
+            if verbose:
+                print(f"       🎨 Heatmap final: {overlay_image.shape} (altura, largura, RGB)")
+                print(f"       🎭 Overlay criado com transparência: {overlay_alpha}")
             processed_count += 1
             
         except Exception as e:
             print(f"   ❌ Erro ao processar {img_id}: {str(e)}")
             continue
     
-    print(f"\n🎉 CONCLUÍDO: {processed_count} heatmaps de relevância gerados!")
-    print(f"   📁 Salvos em: {results_dir}/{model_name}/overlays/")
-    print(f"   🎨 Colormap: {colormap}")
-    print(f"   🎭 Transparência: {overlay_alpha}")
-    print(f"   🔲 Linhas de grade: {'Ativadas' if save_grid_lines else 'Desativadas'}")
-    print("=" * 60)
+    if verbose:
+        print(f"\n🎉 CONCLUÍDO: {processed_count} heatmaps de relevância gerados!")
+        print(f"   📁 Salvos em: {results_dir}/{model_name}/overlays/")
+        print(f"   🎨 Colormap: {colormap}")
+        print(f"   🎭 Transparência: {overlay_alpha}")
+        print(f"   🔲 Linhas de grade: {'Ativadas' if save_grid_lines else 'Desativadas'}")
+        print("=" * 60)
 
 
 def save_overlay_image(

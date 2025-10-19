@@ -163,3 +163,5 @@ cython_debug/
 
 /images
 /results/heatmaps/*
+/results/confusion_matrixs/*
+/results/csv_exports/*

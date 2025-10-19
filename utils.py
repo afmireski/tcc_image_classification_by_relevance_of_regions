@@ -57,7 +57,7 @@ def show_predict_infos(y, predict, title="", cmap="Blues", show_plots=True):
 
     return accuracy, f1, recall, precision
     
-def show_confusion_matrix(y, predict, title="", cmap="Blues"):
+def show_confusion_matrix(y, predict, title="", cmap="Blues", verbose=False):
     import os
     
     # Cria a matriz de confusão
@@ -82,9 +82,12 @@ def show_confusion_matrix(y, predict, title="", cmap="Blues"):
         
         # Salva a figura
         plt.savefig(filepath, dpi=300, bbox_inches='tight', pad_inches=0.1)
-        print(f"💾 Matriz de confusão salva em: {filepath}")
+        if verbose:
+            print(f"💾 Matriz de confusão salva em: {filepath}")
     
-    plt.show()
+    # Mostra a matriz apenas se verbose for True
+    if verbose:
+        plt.show()
 
 def show_metrics(metrics: ModelMetrics, title=""):
     """

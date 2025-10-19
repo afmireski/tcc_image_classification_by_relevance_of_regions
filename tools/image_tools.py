@@ -343,7 +343,6 @@ def reconstruct_image_from_regions(regions_matrix: np.ndarray) -> np.ndarray:
     rows, cols = regions_matrix.shape
 
     # Get the first non-None region to determine data type
-    print("Reconstructing image from regions...")
     first_region = None
     for row_idx in range(rows):
         for col_idx in range(cols):
