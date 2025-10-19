@@ -20,7 +20,10 @@ from .image_tools import (
     visualize_image_segmentation_dynamic,
     visualize_image_segmentation_auto,
     get_region_statistics,
-    reconstruct_image_from_regions
+    reconstruct_image_from_regions,
+    load_images_from_category,
+    load_train_images_dict,
+    merge_image_categories_dicts
 )
 
 from .specialists import (
@@ -29,6 +32,22 @@ from .specialists import (
     train_specialists
 )
 
+from .relevance import (
+    extract_model_results,
+    extract_specialists_probabilities,
+    shannon_entropy,
+    shannon_entropy_manual,
+    calculate_relevance,
+    calculate_max_relevance,
+)
+
+from .data import (
+    merge_categories_dicts,
+    generate_texture_dicts,
+    combine_sets,
+    show_features_summary
+)
+    
 __all__ = [
     "segment_image_into_grid",
     "segment_image_dynamic", 
@@ -46,8 +65,25 @@ __all__ = [
     "visualize_image_segmentation_auto",
     "get_region_statistics",
     "reconstruct_image_from_regions",
+    "load_images_from_category",
+    "load_train_images_dict",
+    "merge_image_categories_dicts",
 
     "build_specialist_set",
     "build_specialist_set_for_many_classes",
-    "train_specialists"
+    "train_specialists",
+
+    "extract_model_results",
+    "extract_specialists_probabilities",
+    "shannon_entropy",
+    "shannon_entropy_manual",
+    "calculate_relevance",
+    "calculate_max_relevance",
+    "load_images_from_category",
+    "load_train_images_dict",
+
+    "merge_categories_dicts",
+    "generate_texture_dicts",
+    "combine_sets",
+    "show_features_summary"
 ]

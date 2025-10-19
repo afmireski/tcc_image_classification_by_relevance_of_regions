@@ -2,6 +2,8 @@
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, classification_report, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 
+from mytypes import ModelMetrics
+
 def show_predict_infos(y, predict, title="", cmap="Blues", show_plots=True):
     """
     Calcula e exibe métricas de avaliação de modelos de classificação.
@@ -55,10 +57,52 @@ def show_predict_infos(y, predict, title="", cmap="Blues", show_plots=True):
 
     return accuracy, f1, recall, precision
     
-def show_confusion_matrix(y, predict, title="", cmap="Blues"):
+def show_confusion_matrix(y, predict, title="", cmap="Blues", verbose=False):
+    import os
+    
+    # Cria a matriz de confusão
     ConfusionMatrixDisplay.from_predictions(y, predict, colorbar=False, cmap=cmap)
+    
+    # Adiciona título se fornecido
     if len(title) > 0:
         plt.title(f"Matriz de Confusão {title}")
     plt.xlabel("Rótulo Previsto")
     plt.ylabel("Rótulo Real")
-    plt.show()
+    
+    # Salva a matriz de confusão se um título foi fornecido
+    if len(title) > 0:
+        # Cria o diretório se não existir
+        save_dir = "results/confusion_matrixs"
+        os.makedirs(save_dir, exist_ok=True)
+        
+        # Gera nome do arquivo baseado no título
+        filename = title.lower().replace(" ", "_").replace("-", "_").replace("+", "_")
+        filename = "".join(c for c in filename if c.isalnum() or c == "_")  # Remove caracteres especiais
+        filepath = os.path.join(save_dir, f"{filename}_confusion_matrix.png")
+        
+        # Salva a figura
+        plt.savefig(filepath, dpi=300, bbox_inches='tight', pad_inches=0.1)
+        if verbose:
+            print(f"💾 Matriz de confusão salva em: {filepath}")
+    
+    # Mostra a matriz apenas se verbose for True
+    if verbose:
+        plt.show()
+
+def show_metrics(metrics: ModelMetrics, title=""):
+    """
+    Exibe métricas de avaliação de modelos de classificação.
+    
+    Args:
+        metrics: Tupla com as métricas (accuracy, f1, recall, precision)
+        title: Título para exibição
+    """
+    accuracy, f1, recall, precision = metrics
+
+    print("-" * 40)
+    print(f"Métricas {title}:")
+    print(f"   📊 Acurácia: {accuracy*100:.4f}%")
+    print(f"   📊 F1: {f1*100:.4f}%")
+    print(f"   📊 Recall: {recall*100:.4f}%")
+    print(f"   📊 Precision: {precision*100:.4f}%")
+    print("-" * 40)
