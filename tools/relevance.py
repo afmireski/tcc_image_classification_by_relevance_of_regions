@@ -2,6 +2,9 @@ import importlib
 import numpy as np
 import os
 import sys
+import shutil
+import zipfile
+from datetime import datetime
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from typing import List, Tuple, Dict
@@ -926,6 +929,70 @@ def export_all_relevance_results_to_csv(
     print("=" * 60)
     
     return generated_files
+
+
+def zip_and_cleanup_results(
+    results_dir: str = "results",
+    experiment_dir_name: str = "experiments",
+    folders_to_zip: List[str] = None,
+    timestamp_format: str = "%Y%m%d_%H%M%S",
+) -> str:
+    """
+    Compacta (zip) pastas de resultados e limpa as pastas originais.
+
+    Args:
+        results_dir: Diretório base onde as pastas existem (default: 'results')
+        experiment_dir_name: Subdiretório onde os zips serão guardados (default: 'experiments')
+        folders_to_zip: Lista de subpastas dentro de results_dir a serem compactadas. Se None, usa
+                        ['confusion_matrixs', 'csv_exports', 'heatmaps'].
+        timestamp_format: Formato do timestamp usado no nome do arquivo zip.
+
+    Returns:
+        Caminho completo para o arquivo zip criado.
+    """
+    if folders_to_zip is None:
+        folders_to_zip = ["confusion_matrixs", "csv_exports", "heatmaps"]
+
+    # Garante que o diretório base existe
+    base_dir = os.path.abspath(results_dir)
+    if not os.path.exists(base_dir):
+        raise FileNotFoundError(f"Diretório de resultados não encontrado: {base_dir}")
+
+    # Cria diretório de experiments
+    experiments_dir = os.path.join(base_dir, experiment_dir_name)
+    os.makedirs(experiments_dir, exist_ok=True)
+
+    # Timestamp para o nome do arquivo
+    ts = datetime.now().strftime(timestamp_format)
+    zip_name = f"experimento_{ts}.zip"
+    zip_path = os.path.join(experiments_dir, zip_name)
+
+    # Cria o zip e adiciona as pastas se existirem
+    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+        for folder in folders_to_zip:
+            folder_path = os.path.join(base_dir, folder)
+            if not os.path.exists(folder_path):
+                # pula se não existir
+                continue
+
+            # Percorre a pasta e adiciona arquivos mantendo a estrutura relativa
+            for root, dirs, files in os.walk(folder_path):
+                for file in files:
+                    abs_file = os.path.join(root, file)
+                    rel_path = os.path.relpath(abs_file, base_dir)
+                    zf.write(abs_file, arcname=rel_path)
+
+    # Depois de criado o zip, remove as pastas compactadas
+    for folder in folders_to_zip:
+        folder_path = os.path.join(base_dir, folder)
+        if os.path.exists(folder_path):
+            try:
+                shutil.rmtree(folder_path)
+            except Exception as e:
+                print(f"⚠️  Falha ao remover {folder_path}: {e}")
+
+    print(f"✅ Resultados compactados em: {zip_path}")
+    return zip_path
 
 
 def relevance_technique(
