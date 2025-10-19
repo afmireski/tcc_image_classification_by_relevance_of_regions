@@ -12,7 +12,7 @@ from typing import List, Tuple, Dict, Any
 import os
 
 import skimage as ski
-from skimage.color import rgb2gray
+from skimage.color import rgb2gray, rgba2rgb
 from skimage import transform
 
 
@@ -846,6 +846,9 @@ def load_images_from_category(
 
         # Carregar e processar a imagem
         img = ski.io.imread(file_path)
+        # Se a imagem veio com canal alpha (RGBA), converte para RGB antes de converter para cinza
+        if img.ndim == 3 and img.shape[2] == 4:
+            img = rgba2rgb(img)
         gray_img = rgb2gray(img)
 
         if resize:
