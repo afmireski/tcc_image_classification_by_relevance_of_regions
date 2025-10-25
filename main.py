@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 # Import the image segmentation tools
 import warnings
+import time
 
 from tools.image_tools import (
     segment_images_by_category_auto,
@@ -47,11 +48,50 @@ from utils import show_confusion_matrix, show_metrics
 # Load environment variables from .env file
 load_dotenv(".env", override=True)
 
+# Marca o tempo de início do script (para medir tempo total de execução)
+start_time = time.perf_counter()
+
 # Suprime warnings do JobLib relacionados ao ResourceTracker
 # Evita poluição do output com mensagens irrelevantes
 warnings.filterwarnings("ignore", category=UserWarning, module="joblib")
 warnings.filterwarnings("ignore", message=".*resource_tracker.*")
 warnings.filterwarnings("ignore", message=".*Cannot register.*")
+
+
+def timed_relevance_technique(
+    base_model,
+    specialist_sets,
+    class_names,
+    model_name,
+    k_folds,
+    true_labels,
+):
+    """Wrapper around relevance_technique that measures and prints execution time.
+
+    Returns the same value as relevance_technique.
+    """
+    start = time.perf_counter()
+    results = relevance_technique(
+        base_model=base_model,
+        specialist_sets=specialist_sets,
+        class_names=class_names,
+        model_name=model_name,
+        k_folds=k_folds,
+        true_labels=true_labels,
+    )
+    end = time.perf_counter()
+    elapsed = end - start
+    # Format elapsed nicely
+    if elapsed < 60:
+        elapsed_str = f"{elapsed:.2f} s"
+    else:
+        mins = int(elapsed // 60)
+        secs = elapsed % 60
+        elapsed_str = f"{mins}m {secs:.2f}s"
+
+    print(f"⏱️ Tempo de execução ({model_name}): {elapsed_str}")
+
+    return results
 
 images_directory = "./images/experiment"
 image_categories = ["dogs", "cats", "lions", "horses"]
@@ -444,7 +484,7 @@ class_names = image_categories
 base_name = "KNN"
 
 print("\n📊 Calculando relevância LBP...")
-relevance_results_knn_lbp = relevance_technique(
+relevance_results_knn_lbp = timed_relevance_technique(
     base_model=base_knn,
     specialist_sets=final_sp_lbp_sets,
     class_names=class_names,
@@ -490,7 +530,7 @@ export_relevance_results_to_csv(
 
 # Treina especialistas para GLCM
 print("\n📊 Calculando relevância GLCM...")
-relevance_results_knn_glcm = relevance_technique(
+relevance_results_knn_glcm = timed_relevance_technique(
     base_model=base_knn,
     specialist_sets=final_sp_glcm_sets,
     class_names=class_names,
@@ -536,7 +576,7 @@ export_relevance_results_to_csv(
 
 # Calcula relevância para LPQ
 print("\n📊 Calculando relevância LPQ...")
-relevance_results_knn_lpq = relevance_technique(
+relevance_results_knn_lpq = timed_relevance_technique(
     base_model=base_knn,
     specialist_sets=final_sp_lpq_sets,
     class_names=class_names,
@@ -582,7 +622,7 @@ export_relevance_results_to_csv(
 
 # Calcula relevância para LBP+GLCM
 print("\n📊 Calculando relevância LBP+GLCM...")
-relevance_results_knn_lbp_glcm = relevance_technique(
+relevance_results_knn_lbp_glcm = timed_relevance_technique(
     base_model=base_knn,
     specialist_sets=final_sp_lbp_glcm_sets,
     class_names=class_names,
@@ -628,7 +668,7 @@ export_relevance_results_to_csv(
 
 # Calcula relevância para LBP+LPQ
 print("\n📊 Calculando relevância LBP+LPQ...")
-relevance_results_knn_lbp_lpq = relevance_technique(
+relevance_results_knn_lbp_lpq = timed_relevance_technique(
     base_model=base_knn,
     specialist_sets=final_sp_lbp_lpq_sets,
     class_names=class_names,
@@ -674,7 +714,7 @@ export_relevance_results_to_csv(
 
 # Calcula relevância para GLCM+LPQ
 print("\n📊 Calculando relevância GLCM+LPQ...")
-relevance_results_knn_glcm_lpq = relevance_technique(
+relevance_results_knn_glcm_lpq = timed_relevance_technique(
     base_model=base_knn,
     specialist_sets=final_sp_glcm_lpq_sets,
     class_names=class_names,
@@ -720,7 +760,7 @@ export_relevance_results_to_csv(
 
 # Calcula relevância para LBP+GLCM+LPQ
 print("\n📊 Calculando relevância LBP+GLCM+LPQ...")
-relevance_results_knn_lbp_glcm_lpq = relevance_technique(
+relevance_results_knn_lbp_glcm_lpq = timed_relevance_technique(
     base_model=base_knn,
     specialist_sets=final_sp_lbp_glcm_lpq_sets,
     class_names=class_names,
@@ -1412,3 +1452,15 @@ zip_and_cleanup_results(
     results_dir="results",
     folders_to_zip=["confusion_matrixs", "heatmaps", "csv_exports"],
 )
+
+# Tempo total do script
+end_time = time.perf_counter()
+total_elapsed = end_time - start_time
+if total_elapsed < 60:
+    total_elapsed_str = f"{total_elapsed:.2f} s"
+else:
+    mins = int(total_elapsed // 60)
+    secs = total_elapsed % 60
+    total_elapsed_str = f"{mins}m {secs:.2f}s"
+
+print(f"⏳ Tempo total de execução do script: {total_elapsed_str}")
