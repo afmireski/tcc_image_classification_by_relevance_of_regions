@@ -1,0 +1,2877 @@
+MIN_K: 4, MAX_K: 20, BASE_SIZE: 512, BASE_K: 9
+Auto-segmenting 500 images from category 'dogs' (K range: 4-20)...
+  Generated average 9.0 regions per image
+dogs: 4500 regions total
+Auto-segmenting 500 images from category 'cats' (K range: 4-20)...
+  Generated average 9.0 regions per image
+cats: 4500 regions total
+Auto-segmenting 500 images from category 'lions' (K range: 4-20)...
+  Generated average 9.0 regions per image
+lions: 4500 regions total
+Auto-segmenting 500 images from category 'horses' (K range: 4-20)...
+  Generated average 9.0 regions per image
+horses: 4500 regions total
+Categoria: dogs, Número de elementos: 500
+Categoria: cats, Número de elementos: 500
+Categoria: lions, Número de elementos: 500
+Categoria: horses, Número de elementos: 500
+Categoria: dogs, Número de elementos: 500
+Categoria: cats, Número de elementos: 500
+Categoria: lions, Número de elementos: 500
+Categoria: horses, Número de elementos: 500
+Categoria: dogs, Número de elementos: 500
+Categoria: cats, Número de elementos: 500
+Categoria: lions, Número de elementos: 500
+Categoria: horses, Número de elementos: 500
+==================================================
+RESUMO DOS CONJUNTOS DE FEATURES
+==================================================
+📊 Total de imagens: 2000
+🔧 Total de conjuntos gerados: 7
+📋 Labels únicos: {'lions', 'horses', 'cats', 'dogs'}
+
+🔹 LBP:
+   📁 Imagens: 2000
+   🧩 Segmentos por imagem: 9
+   🧱 Total de segmentos do conjunto: 18000
+   🎯 Features por segmento: 59
+   📈 Total features por imagem: 531
+
+🔹 GLCM:
+   📁 Imagens: 2000
+   🧩 Segmentos por imagem: 9
+   🧱 Total de segmentos do conjunto: 18000
+   🎯 Features por segmento: 72
+   📈 Total features por imagem: 648
+
+🔹 LPQ:
+   📁 Imagens: 2000
+   🧩 Segmentos por imagem: 9
+   🧱 Total de segmentos do conjunto: 18000
+   🎯 Features por segmento: 256
+   📈 Total features por imagem: 2304
+
+🔹 LBP+GLCM:
+   📁 Imagens: 2000
+   🧩 Segmentos por imagem: 9
+   🧱 Total de segmentos do conjunto: 18000
+   🎯 Features por segmento: 131
+   📈 Total features por imagem: 1179
+
+🔹 LBP+LPQ:
+   📁 Imagens: 2000
+   🧩 Segmentos por imagem: 9
+   🧱 Total de segmentos do conjunto: 18000
+   🎯 Features por segmento: 315
+   📈 Total features por imagem: 2835
+
+🔹 GLCM+LPQ:
+   📁 Imagens: 2000
+   🧩 Segmentos por imagem: 9
+   🧱 Total de segmentos do conjunto: 18000
+   🎯 Features por segmento: 328
+   📈 Total features por imagem: 2952
+
+🔹 LBP+GLCM+LPQ:
+   📁 Imagens: 2000
+   🧩 Segmentos por imagem: 9
+   🧱 Total de segmentos do conjunto: 18000
+   🎯 Features por segmento: 387
+   📈 Total features por imagem: 3483
+
+==================================================
+Limpando variáveis desnecessárias...
+Variáveis antes da limpeza: 66 variáveis locais
+  ✓ Removida: segmented_train_images
+  ✓ Removida: lbps_by_categories
+  ✓ Removida: glcms_by_category
+  ✓ Removida: radius
+  ✓ Removida: n_pixels
+  ✓ Removida: n_examples
+
+✓ Limpeza concluída!
+  - 6 variáveis removidas
+  - Memória liberada pela coleta de lixo
+  - Variáveis após limpeza: 63 variáveis locais
+
+📋 Principais variáveis mantidas:
+  ✓ image_categories: list (tamanho: 4)
+  ✓ train_images_by_categories: dict (tamanho: 4)
+  ✓ labels: list (tamanho: 2000)
+  ✓ GLCM_DISTANCES: list (tamanho: 3)
+  ✓ GLCM_ANGLES: ndarray (4,)
+  ✓ GLCM_FEATURES: list (tamanho: 6)
+
+💡 Variáveis limpas com sucesso! Agora você pode prosseguir com o treinamento dos modelos.
+🔄 Nova estrutura: combined_sets contém todos os conjuntos de features combinados.
+Classes: ['dogs', 'cats', 'lions', 'horses']
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 59), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 59), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 72), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 72), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 256), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 256), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 131), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 131), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 315), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 315), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 328), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 328), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+🎉 5 folds processados com sucesso!
+📊 Total imagens classe: 500
+📊 Total imagens não-classe: 1500
+🔄 Dividindo em 5 folds...
+  Fold 0: 100 classe, 300 não-classe
+  Fold 1: 100 classe, 300 não-classe
+  Fold 2: 100 classe, 300 não-classe
+  Fold 3: 100 classe, 300 não-classe
+  Fold 4: 100 classe, 300 não-classe
+
+🔧 Construindo fold 0...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 1...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 2...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 3...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🔧 Construindo fold 4...
+  ✅ Treino: 400 classe + 1200 não-classe = 1600
+  ✅ Teste: 100 classe + 300 não-classe = 400
+
+🎉 5 folds construídos com sucesso!
+🔄 Convertendo folds para formato de classificação...
+
+📂 Processando fold 0...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 1...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 2...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 3...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+📂 Processando fold 4...
+  🏋️ Processando dados de treino...
+  🧪 Processando dados de teste...
+  ✅ Treino: 14400 imagens → X(14400, 387), y(14400,)
+  ✅ Teste: 3600 imagens → X(3600, 387), y(3600,)
+
+🎉 5 folds processados com sucesso!
+Tunando parâmetros do KNN...
+Tunando parâmetros do Random Forest...
+Tunando SVM...
+🚀 === CALCULANDO RELEVÂNCIA DOS MODELOS KNN ===
+
+📊 Calculando relevância LBP...
+🚀 Iniciando treinamento de especialistas KNN-LBP
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: KNN-LBP-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: KNN-LBP-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: KNN-LBP-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses/home/alunos/a2020815/tcc_image_classification_by_relevance_of_regions/tools/relevance.py:202: RuntimeWarning: invalid value encountered in divide
+  norm_probs = probs / probs.sum(axis=1, keepdims=True)
+
+=== Iniciando treinamento assistido: KNN-LBP-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas KNN-LBP concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (KNN-LBP): 1m 2.23s
+----------------------------------------
+Métricas KNN LBP:
+   📊 Acurácia: 83.6500%
+   📊 F1: 83.5797%
+   📊 Recall: 83.6500%
+   📊 Precision: 83.7425%
+----------------------------------------
+📊 Exportando resultados para CSV: KNN_LBP
+   📁 Arquivo: results/csv_exports/knn_lbp_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/knn_lbp_results.csv
+==================================================
+
+📊 Calculando relevância GLCM...
+🚀 Iniciando treinamento de especialistas KNN-GLCM
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: KNN-GLCM-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: KNN-GLCM-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: KNN-GLCM-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: KNN-GLCM-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas KNN-GLCM concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (KNN-GLCM): 1m 9.78s
+----------------------------------------
+Métricas KNN GLCM:
+   📊 Acurácia: 81.7000%
+   📊 F1: 81.6807%
+   📊 Recall: 81.7000%
+   📊 Precision: 81.9501%
+----------------------------------------
+📊 Exportando resultados para CSV: KNN_GLCM
+   📁 Arquivo: results/csv_exports/knn_glcm_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/knn_glcm_results.csv
+==================================================
+
+📊 Calculando relevância LPQ...
+🚀 Iniciando treinamento de especialistas KNN-LPQ
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: KNN-LPQ-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: KNN-LPQ-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: KNN-LPQ-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 5}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 5}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: KNN-LPQ-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 5}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas KNN-LPQ concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (KNN-LPQ): 3m 42.99s
+----------------------------------------
+Métricas KNN LPQ:
+   📊 Acurácia: 85.6000%
+   📊 F1: 85.5710%
+   📊 Recall: 85.6000%
+   📊 Precision: 85.7474%
+----------------------------------------
+📊 Exportando resultados para CSV: KNN_LPQ
+   📁 Arquivo: results/csv_exports/knn_lpq_results.csv
+   🎯 Imagens: 2000 amostrasOpenBLAS warning: precompiled NUM_THREADS exceeded, adding auxiliary array for thread metadata.
+To avoid this warning, please rebuild your copy of OpenBLAS with a larger NUM_THREADS setting
+or set the environment variable OPENBLAS_NUM_THREADS to 64 or lower
+/home/alunos/a2020815/tcc_image_classification_by_relevance_of_regions/tools/relevance.py:202: RuntimeWarning: invalid value encountered in divide
+  norm_probs = probs / probs.sum(axis=1, keepdims=True)
+
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/knn_lpq_results.csv
+==================================================
+
+📊 Calculando relevância LBP+GLCM...
+🚀 Iniciando treinamento de especialistas KNN-LBP+GLCM
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: KNN-LBP+GLCM-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: KNN-LBP+GLCM-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: KNN-LBP+GLCM-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: KNN-LBP+GLCM-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 5}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas KNN-LBP+GLCM concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (KNN-LBP+GLCM): 1m 55.60s
+----------------------------------------
+Métricas KNN LBP+GLCM:
+   📊 Acurácia: 85.2500%
+   📊 F1: 85.2318%
+   📊 Recall: 85.2500%
+   📊 Precision: 85.5733%
+----------------------------------------
+📊 Exportando resultados para CSV: KNN_LBP_GLCM
+   📁 Arquivo: results/csv_exports/knn_lbp_glcm_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/knn_lbp_glcm_results.csv
+==================================================
+
+📊 Calculando relevância LBP+LPQ...
+🚀 Iniciando treinamento de especialistas KNN-LBP+LPQ
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: KNN-LBP+LPQ-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: KNN-LBP+LPQ-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: KNN-LBP+LPQ-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: KNN-LBP+LPQ-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas KNN-LBP+LPQ concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (KNN-LBP+LPQ): 4m 46.02s
+----------------------------------------
+Métricas KNN LBP+LPQ:
+   📊 Acurácia: 87.2000%
+   📊 F1: 87.1575%
+   📊 Recall: 87.2000%
+   📊 Precision: 87.3177%
+----------------------------------------
+📊 Exportando resultados para CSV: KNN_LBP_LPQ
+   📁 Arquivo: results/csv_exports/knn_lbp_lpq_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/knn_lbp_lpq_results.csv
+==================================================
+
+📊 Calculando relevância GLCM+LPQ...
+🚀 Iniciando treinamento de especialistas KNN-GLCM+LPQ
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: KNN-GLCM+LPQ-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: KNN-GLCM+LPQ-Specialist-cats ===/home/alunos/a2020815/tcc_image_classification_by_relevance_of_regions/tools/relevance.py:202: RuntimeWarning: invalid value encountered in divide
+  norm_probs = probs / probs.sum(axis=1, keepdims=True)
+/home/alunos/a2020815/tcc_image_classification_by_relevance_of_regions/tools/relevance.py:202: RuntimeWarning: invalid value encountered in divide
+  norm_probs = probs / probs.sum(axis=1, keepdims=True)
+
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: KNN-GLCM+LPQ-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: KNN-GLCM+LPQ-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 5}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 5}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas KNN-GLCM+LPQ concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (KNN-GLCM+LPQ): 4m 57.36s
+----------------------------------------
+Métricas KNN GLCM+LPQ:
+   📊 Acurácia: 86.4500%
+   📊 F1: 86.4556%
+   📊 Recall: 86.4500%
+   📊 Precision: 86.7459%
+----------------------------------------
+📊 Exportando resultados para CSV: KNN_GLCM_LPQ
+   📁 Arquivo: results/csv_exports/knn_glcm_lpq_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/knn_glcm_lpq_results.csv
+==================================================
+
+📊 Calculando relevância LBP+GLCM+LPQ...
+🚀 Iniciando treinamento de especialistas KNN-LBP+GLCM+LPQ
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: KNN-LBP+GLCM+LPQ-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: KNN-LBP+GLCM+LPQ-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: KNN-LBP+GLCM+LPQ-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: KNN-LBP+GLCM+LPQ-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'manhattan', 'knn__n_neighbors': 7}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 9}
+Melhores parâmetros: {'knn__metric': 'euclidean', 'knn__n_neighbors': 5}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas KNN-LBP+GLCM+LPQ concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (KNN-LBP+GLCM+LPQ): 5m 47.23s
+----------------------------------------
+Métricas KNN LBP+GLCM+LPQ:
+   📊 Acurácia: 88.2500%
+   📊 F1: 88.2557%
+   📊 Recall: 88.2500%
+   📊 Precision: 88.5057%
+----------------------------------------
+📊 Exportando resultados para CSV: KNN_LBP_GLCM_LPQ
+   📁 Arquivo: results/csv_exports/knn_lbp_glcm_lpq_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/knn_lbp_glcm_lpq_results.csv
+==================================================
+✅ Relevância calculada para todos os 7 conjuntos de features
+📊 Métricas e matrizes de confusão geradas para cada combinação
+
+🎉 === CÁLCULO DE RELEVÂNCIA KNN CONCLUÍDO ===
+🚀 === CALCULANDO RELEVÂNCIA DOS MODELOS SVM ===
+
+📊 Calculando relevância LBP...
+🚀 Iniciando treinamento de especialistas SVM-LBP
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: SVM-LBP-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: SVM-LBP-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: SVM-LBP-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: SVM-LBP-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas SVM-LBP concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (SVM-LBP): 276m 23.40s
+----------------------------------------
+Métricas SVM LBP:
+   📊 Acurácia: 90.0000%
+   📊 F1: 89.9982%
+   📊 Recall: 90.0000%
+   📊 Precision: 90.0190%
+----------------------------------------
+📊 Exportando resultados para CSV: SVM_LBP
+   📁 Arquivo: results/csv_exports/svm_lbp_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/svm_lbp_results.csv
+==================================================
+
+📊 Calculando relevância GLCM...
+🚀 Iniciando treinamento de especialistas SVM-GLCM
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: SVM-GLCM-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: SVM-GLCM-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: SVM-GLCM-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: SVM-GLCM-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas SVM-GLCM concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (SVM-GLCM): 220m 43.52s
+----------------------------------------
+Métricas SVM GLCM:
+   📊 Acurácia: 88.0500%
+   📊 F1: 88.0435%
+   📊 Recall: 88.0500%
+   📊 Precision: 88.0407%
+----------------------------------------
+📊 Exportando resultados para CSV: SVM_GLCM
+   📁 Arquivo: results/csv_exports/svm_glcm_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/svm_glcm_results.csv
+==================================================
+
+📊 Calculando relevância LPQ...
+🚀 Iniciando treinamento de especialistas SVM-LPQ
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: SVM-LPQ-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: SVM-LPQ-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: SVM-LPQ-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: SVM-LPQ-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas SVM-LPQ concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (SVM-LPQ): 1350m 57.41s
+----------------------------------------
+Métricas SVM LPQ:
+   📊 Acurácia: 92.7500%
+   📊 F1: 92.7531%
+   📊 Recall: 92.7500%
+   📊 Precision: 92.7748%
+----------------------------------------
+📊 Exportando resultados para CSV: SVM_LPQ
+   📁 Arquivo: results/csv_exports/svm_lpq_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/svm_lpq_results.csv
+==================================================
+
+📊 Calculando relevância LBP+GLCM...
+🚀 Iniciando treinamento de especialistas SVM-LBP+GLCM
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: SVM-LBP+GLCM-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: SVM-LBP+GLCM-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: SVM-LBP+GLCM-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: SVM-LBP+GLCM-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 1000, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 100, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas SVM-LBP+GLCM concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (SVM-LBP+GLCM): 615m 46.02s
+----------------------------------------
+Métricas SVM LBP+GLCM:
+   📊 Acurácia: 90.6500%
+   📊 F1: 90.6504%
+   📊 Recall: 90.6500%
+   📊 Precision: 90.6558%
+----------------------------------------
+📊 Exportando resultados para CSV: SVM_LBP_GLCM
+   📁 Arquivo: results/csv_exports/svm_lbp_glcm_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/svm_lbp_glcm_results.csv
+==================================================
+
+📊 Calculando relevância LBP+LPQ...
+🚀 Iniciando treinamento de especialistas SVM-LBP+LPQ
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: SVM-LBP+LPQ-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: SVM-LBP+LPQ-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: SVM-LBP+LPQ-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: SVM-LBP+LPQ-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas SVM-LBP+LPQ concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (SVM-LBP+LPQ): 1618m 41.80s
+----------------------------------------
+Métricas SVM LBP+LPQ:
+   📊 Acurácia: 94.0500%
+   📊 F1: 94.0504%
+   📊 Recall: 94.0500%
+   📊 Precision: 94.0566%
+----------------------------------------
+📊 Exportando resultados para CSV: SVM_LBP_LPQ
+   📁 Arquivo: results/csv_exports/svm_lbp_lpq_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/svm_lbp_lpq_results.csv
+==================================================
+
+📊 Calculando relevância GLCM+LPQ...
+🚀 Iniciando treinamento de especialistas SVM-GLCM+LPQ
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: SVM-GLCM+LPQ-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: SVM-GLCM+LPQ-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: SVM-GLCM+LPQ-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: SVM-GLCM+LPQ-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas SVM-GLCM+LPQ concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (SVM-GLCM+LPQ): 1659m 3.05s
+----------------------------------------
+Métricas SVM GLCM+LPQ:
+   📊 Acurácia: 93.7000%
+   📊 F1: 93.7008%
+   📊 Recall: 93.7000%
+   📊 Precision: 93.7137%
+----------------------------------------
+📊 Exportando resultados para CSV: SVM_GLCM_LPQ
+   📁 Arquivo: results/csv_exports/svm_glcm_lpq_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/svm_glcm_lpq_results.csv
+==================================================
+
+📊 Calculando relevância LBP+GLCM+LPQ...
+🚀 Iniciando treinamento de especialistas SVM-LBP+GLCM+LPQ
+   📋 4 especialistas para treinar
+   🔄 Validação cruzada: 5 folds
+------------------------------------------------------------
+
+🎯 Treinando especialista 1/4: dogs
+=== Iniciando treinamento assistido: SVM-LBP+GLCM+LPQ-Specialist-dogs ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 2/4: cats
+=== Iniciando treinamento assistido: SVM-LBP+GLCM+LPQ-Specialist-cats ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 3/4: lions
+=== Iniciando treinamento assistido: SVM-LBP+GLCM+LPQ-Specialist-lions ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 'auto', 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎯 Treinando especialista 4/4: horses
+=== Iniciando treinamento assistido: SVM-LBP+GLCM+LPQ-Specialist-horses ===
+Validação cruzada: 5 folds
+--------------------------------------------------
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+Melhores parâmetros: {'svm__C': 10, 'svm__gamma': 0.002, 'svm__kernel': 'rbf'}
+--------------------------------------------------
+
+🎉 Treinamento de especialistas SVM-LBP+GLCM+LPQ concluído!
+   ✅ 4 especialistas treinados com sucesso
+   📦 Array retornado: raw_probabilities[i] = probabilidades do especialista da classe i
+============================================================
+⏱️ Tempo de execução (SVM-LBP+GLCM+LPQ): 1904m 18.73s
+----------------------------------------
+Métricas SVM LBP+GLCM+LPQ:
+   📊 Acurácia: 94.4000%
+   📊 F1: 94.4000%
+   📊 Recall: 94.4000%
+   📊 Precision: 94.4018%
+----------------------------------------
+📊 Exportando resultados para CSV: SVM_LBP_GLCM_LPQ
+   📁 Arquivo: results/csv_exports/svm_lbp_glcm_lpq_results.csv
+   🎯 Imagens: 2000 amostras
+--------------------------------------------------
+   ✅ 2000 linhas escritas com sucesso
+   💾 Arquivo salvo: results/csv_exports/svm_lbp_glcm_lpq_results.csv
+==================================================
+✅ Relevância calculada para todos os 7 conjuntos de features
+📊 Métricas e matrizes de confusão geradas para cada combinação
+
+🎉 === CÁLCULO DE RELEVÂNCIA SVM CONCLUÍDO ===
+✅ Resultados compactados em: /home/alunos/a2020815/tcc_image_classification_by_relevance_of_regions/results/experiments/experimento_20251030_195628.zip
+⏳ Tempo total de execução do script: 7730m 12.54s
