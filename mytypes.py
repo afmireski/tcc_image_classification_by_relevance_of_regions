@@ -65,6 +65,16 @@ ModelMetrics = Tuple[float, float, float, float]  # (accuracy, f1, recall, preci
 
 ModelLabels = Tuple[List[int], List[int]]  # (true_labels, predicted_labels)
 
+# Resultados de classificação padrão (multiclasse com imagens completas)
+StandardModelResults = Dict[str, np.ndarray]  # {img_id: [prob_class_0, prob_class_1, ..., prob_class_n]}
+
+StandardClassificationResults = Tuple[
+    StandardModelResults,  # probabilidades por classe
+    PredictResults,        # labels preditos
+    ModelLabels,           # (true_labels, predicted_labels)
+    ModelMetrics,          # (accuracy, f1, recall, precision)
+]
+
 RelevanceResults = Tuple[
     ModelResults,
     ModelResults,

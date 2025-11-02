@@ -168,3 +168,4 @@ cython_debug/
 /results/confusion_matrixs/*
 /results/csv_exports/*
 /results/experiments
+/results/standards
