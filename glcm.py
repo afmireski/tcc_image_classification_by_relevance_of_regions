@@ -69,6 +69,75 @@ def parallel_extract_glcm_features_for_each_category(
     }
 
 
+# --- Full-image GLCM extraction with caching (analogous to LBP flow) ---
+def calculate_glcm_for_single_image(
+    image_name: str,
+    image_value: np.ndarray,
+    distances: list[int],
+    angles: np.ndarray,
+    glcm_props: list[str],
+    levels: int,
+    symmetric=True,
+    normed=True,
+):
+    """
+    Calculate GLCM features for a full image (not segmented) with caching support.
+
+    Saves cached features to features/glcms/<image_name>_glcm.npy and returns the
+    extracted GLCM properties as a 1D numpy array.
+    """
+    cache_dir = Path("features/glcms")
+    cache_file = cache_dir / f"{image_name}_glcm.npy"
+
+    cache_dir.mkdir(parents=True, exist_ok=True)
+
+    if cache_file.exists():
+        try:
+            features = np.load(cache_file)
+            return features
+        except Exception as e:
+            print(f"Warning: Failed to load cached GLCM for {image_name}: {e}")
+
+    # compute matrix and extract features
+    glcm_matrix = graycomatrix(
+        image_value, distances, angles, levels, symmetric=symmetric, normed=normed
+    )
+    features = extract_glcm_features(glcm_matrix, glcm_props)
+
+    try:
+        np.save(cache_file, features)
+    except Exception as e:
+        print(f"Warning: Failed to save GLCM cache for {image_name}: {e}")
+
+    return features
+
+
+def parallel_calculate_glcm_from_many_images_full(
+    images: Dict[str, np.ndarray],
+    distances: list[int],
+    angles: np.ndarray,
+    glcm_props: list[str],
+    levels: int,
+    symmetric=True,
+    normed=True,
+    n_jobs=-1,
+) -> Dict[str, np.ndarray]:
+    """
+    Parallel runner that computes cached full-image GLCM features for many images.
+
+    Returns a dict {image_name: features_array}.
+    """
+    results = Parallel(n_jobs=n_jobs, backend="threading")(
+        delayed(calculate_glcm_for_single_image)(
+            name, img, distances, angles, glcm_props, levels, symmetric, normed
+        )
+        for name, img in images.items()
+    )
+
+    image_names = list(images.keys())
+    return {image_names[i]: results[i] for i in range(len(results))}
+
+
 def calculate_glcm_from_segmented_image(
     image_name: str,
     regions_matrix: np.ndarray,
@@ -146,18 +215,18 @@ def calculate_glcm_from_segmented_image(
         if len(features_list) > 1:
             shapes = [len(features) for features in features_list]
             max_shape = max(shapes)
-            
+
             # Pad feature arrays to have the same size
             normalized_features = []
             for features in features_list:
                 if len(features) < max_shape:
                     # Pad with zeros
                     padded_features = np.zeros(max_shape)
-                    padded_features[:len(features)] = features
+                    padded_features[: len(features)] = features
                     normalized_features.append(padded_features)
                 else:
                     normalized_features.append(features)
-            
+
             features_array = np.array(normalized_features)
         else:
             features_array = np.array(features_list)
@@ -195,7 +264,7 @@ def _is_valid_region(region) -> bool:
     )
 
 
-def parallel_calculate_glcm_from_many_images(
+def parallel_calculate_glcm_from_many_images_segmented(
     images: Dict[str, np.ndarray],
     distances: list[int],
     angles: np.ndarray,
@@ -208,17 +277,24 @@ def parallel_calculate_glcm_from_many_images(
     # Execute parallel computation
     results = Parallel(n_jobs=n_jobs, backend="threading")(
         delayed(calculate_glcm_from_segmented_image)(
-            key, regions_matrix, distances, glcm_props, angles, levels, symmetric, normed
+            key,
+            regions_matrix,
+            distances,
+            glcm_props,
+            angles,
+            levels,
+            symmetric,
+            normed,
         )
         for key, regions_matrix in images.items()
     )
-    
+
     # Convert list of results back to dictionary format
     image_names = list(images.keys())
     return {image_names[i]: results[i] for i in range(len(results))}
 
 
-def parallel_calculate_glcm_for_each_category(
+def parallel_calculate_glcm_for_each_category_segmented(
     categories: list[str],
     images: Dict[str, Dict[str, np.ndarray]],
     distances: list[int],
@@ -230,8 +306,15 @@ def parallel_calculate_glcm_for_each_category(
     n_jobs=-1,
 ) -> Dict[str, Dict[str, np.ndarray]]:
     return {
-        category: parallel_calculate_glcm_from_many_images(
-            images[category], distances, angles, glcm_props, levels, symmetric, normed, n_jobs
+        category: parallel_calculate_glcm_from_many_images_segmented(
+            images[category],
+            distances,
+            angles,
+            glcm_props,
+            levels,
+            symmetric,
+            normed,
+            n_jobs,
         )
         for category in categories
     }
@@ -265,7 +348,14 @@ def calculate_glcm_for_many_segmented_images(
 
     for image_name, regions_matrix in images.items():
         glcms[image_name] = calculate_glcm_from_segmented_image(
-            image_name, regions_matrix, distances, glcm_props, angles, levels, symmetric, normed
+            image_name,
+            regions_matrix,
+            distances,
+            glcm_props,
+            angles,
+            levels,
+            symmetric,
+            normed,
         )
 
     return glcms
@@ -299,7 +389,39 @@ def calculate_glcm_for_segments_by_categories(
     """
     return {
         category: calculate_glcm_for_many_segmented_images(
-            segmented_images[category], distances, angles, glcm_props, levels, symmetric, normed
+            segmented_images[category],
+            distances,
+            angles,
+            glcm_props,
+            levels,
+            symmetric,
+            normed,
+        )
+        for category in categories
+    }
+
+def parallel_calculate_glcm_for_each_category(
+    categories: list[str],
+    images: Dict[str, Dict[str, np.ndarray]],
+    distances: list[int],
+    angles: np.ndarray,
+    glcm_props: list[str],
+    levels: int,
+    symmetric=True,
+    normed=True,
+    n_jobs=-1,
+) -> Dict[str, Dict[str, np.ndarray]]:
+    # For full-image extraction and caching use the full-image parallel runner.
+    return {
+        category: parallel_calculate_glcm_from_many_images_full(
+            images[category],
+            distances,
+            angles,
+            glcm_props,
+            levels,
+            symmetric,
+            normed,
+            n_jobs,
         )
         for category in categories
     }

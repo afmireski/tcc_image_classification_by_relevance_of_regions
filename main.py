@@ -15,8 +15,8 @@ from tools.image_tools import (
 from lbp import (
     compute_lbp_for_segments_by_categories,
 )
-from glcm import parallel_calculate_glcm_for_each_category
-from lpq import extract_lpq_features_for_each_category
+from glcm import parallel_calculate_glcm_for_each_category_segmented
+from lpq import extract_lpq_features_for_each_category_segmented
 
 from tools.data import (
     generate_texture_dicts,
@@ -152,7 +152,7 @@ GLCM_FEATURES = [
     "correlation",
 ]
 
-glcms_by_category = parallel_calculate_glcm_for_each_category(
+glcms_by_category = parallel_calculate_glcm_for_each_category_segmented(
     image_categories,
     segmented_train_images,
     GLCM_DISTANCES,
@@ -164,7 +164,7 @@ glcms_by_category = parallel_calculate_glcm_for_each_category(
 features.append(glcms_by_category)
 
 ## Extrair Features LPQ para todas as imagens segmentadas
-lpqs_dict = extract_lpq_features_for_each_category(
+lpqs_dict = extract_lpq_features_for_each_category_segmented(
     image_categories, segmented_train_images
 )
 

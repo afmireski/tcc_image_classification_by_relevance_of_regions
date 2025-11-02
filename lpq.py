@@ -257,7 +257,7 @@ def extract_lpq_features_from_segmented_images(
         for image_name, regions_matrix in images.items()
     }
 
-def extract_lpq_features_for_each_category(
+def extract_lpq_features_for_each_category_segmented(
     categories: List[str], 
     images: Dict[str, Dict[str, np.ndarray]], 
     winSize=7, 
@@ -338,6 +338,79 @@ def extract_lpq_features_for_segments_by_categories(
     return {
         category: extract_lpq_features_for_many_segmented_images(
             segmented_images[category], winSize, decorr, mode
+        )
+        for category in categories
+    }
+
+
+# -------------------- Full-image LPQ extraction + caching --------------------
+def extract_lpq_features_from_image(
+    image_name: str, image_value: np.ndarray, winSize=7, decorr=1, mode="nh"
+) -> np.ndarray:
+    """
+    Extract LPQ features for a single full image with caching.
+
+    Cache file: features/lpqs/<image_name>_lpq.npy
+    Returns the LPQ descriptor (histogram or image depending on 'mode').
+    """
+    cache_dir = Path("features/lpqs")
+    cache_file = cache_dir / f"{image_name}_lpq.npy"
+
+    cache_dir.mkdir(parents=True, exist_ok=True)
+
+    if cache_file.exists():
+        try:
+            features = np.load(cache_file)
+            return features
+        except Exception as e:
+            print(f"Warning: Failed to load cached LPQ for {image_name}: {e}")
+
+    features = lpq(image_value, winSize, decorr, mode)
+
+    try:
+        np.save(cache_file, features)
+    except Exception as e:
+        print(f"Warning: Failed to save LPQ cache for {image_name}: {e}")
+
+    return features
+
+
+def extract_lpq_features_from_images(
+    images: Dict[str, np.ndarray], winSize=7, decorr=1, mode="nh"
+) -> Dict[str, np.ndarray]:
+    """
+    Extract LPQ features from multiple full images (not segmented).
+
+    Args:
+        images: Dict of {image_name: image_array}
+    Returns:
+        Dict of {image_name: features_array}
+    """
+    lpqs = {}
+
+    for image_name, img in images.items():
+        lpqs[image_name] = extract_lpq_features_from_image(
+            image_name, img, winSize, decorr, mode
+        )
+
+    return lpqs
+
+
+def extract_lpq_features_for_each_category(
+    categories: List[str],
+    images: Dict[str, Dict[str, np.ndarray]],
+    winSize=7,
+    decorr=1,
+    mode="nh",
+) -> Dict[str, Dict[str, np.ndarray]]:
+    """
+    Extract LPQ features for full images organized by category.
+
+    Mirrors the segmented flow but operates on full images and uses caching.
+    """
+    return {
+        category: extract_lpq_features_from_images(
+            images[category], winSize, decorr, mode
         )
         for category in categories
     }

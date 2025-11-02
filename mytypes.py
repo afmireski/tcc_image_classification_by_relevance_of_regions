@@ -24,18 +24,38 @@ class FoldData(TypedDict):
     train_total: int
     test_total: int
 
+class FoldDataFull(TypedDict):
+    """Estrutura de dados para cada fold de validação cruzada"""
+
+    fold_id: int
+    train_features: Dict[str, np.ndarray]
+    train_true_map: Dict[str, int]
+    test_features: Dict[str, np.ndarray]
+    test_true_map: Dict[str, int]
+    train_count: int
+    test_count: int
+    train_total: int
+    test_total: int
+
 
 ClassificationData = Tuple[np.ndarray, np.ndarray, Dict[int, str]]
+ClassificationDataFull = Tuple[np.ndarray, np.ndarray, List[str]]
 
 # Aliases para tipos complexos
 ClassificationFold = Tuple[
     ClassificationData,  # dados de treino
     ClassificationData,  # dados de teste
 ]
+ClassificationFoldFull = Tuple[
+    ClassificationDataFull,  # dados de treino
+    ClassificationDataFull,  # dados de teste
+]
 
 ClassificationDataset = List[ClassificationFold]
+MulticlassClassificationDataset = List[ClassificationFoldFull]
 
 PreparedSetsForClassification = List[ClassificationDataset]
+PreparedMulticlassSetsForClassification = List[MulticlassClassificationDataset]
 
 ModelResults = Dict[str, np.ndarray]  # {img_id: [prob_segment_0, prob_segment_1, ...]}
 
