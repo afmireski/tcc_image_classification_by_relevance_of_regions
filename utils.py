@@ -57,7 +57,7 @@ def show_predict_infos(y, predict, title="", cmap="Blues", show_plots=True):
 
     return accuracy, f1, recall, precision
     
-def show_confusion_matrix(y, predict, title="", cmap="Blues", verbose=False):
+def show_confusion_matrix(y, predict, title="", cmap="Blues", verbose=False, save_dir='results/confusion_matrixs'):
     import os
     
     # Cria a matriz de confusão
@@ -72,7 +72,6 @@ def show_confusion_matrix(y, predict, title="", cmap="Blues", verbose=False):
     # Salva a matriz de confusão se um título foi fornecido
     if len(title) > 0:
         # Cria o diretório se não existir
-        save_dir = "results/confusion_matrixs"
         os.makedirs(save_dir, exist_ok=True)
         
         # Gera nome do arquivo baseado no título
